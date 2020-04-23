@@ -20,6 +20,12 @@ pubsub.subscribe(EVENTS.SERIES_END_EVENT, (obj) => {
   clog(`*** Series ${obj.currentSeries} DONE! ***`);
 });
 
+pubsub.subscribe(EVENTS.WORKOUT_START_EVENT, (obj) => {
+  clog(`\n***********************`);
+  clog(`*** WORKOUT START!! ***`);
+  clog(`***********************\n`);
+});
+
 pubsub.subscribe(EVENTS.WORKOUT_DONE_EVENT, (obj) => {
   clog(`\n**********************`);
   clog(`*** WORKOUT DONE!! ***`);

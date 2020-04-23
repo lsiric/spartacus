@@ -42,12 +42,12 @@ function Spartacus(
   this.startNextSeries = () => {
     this.currentSeries++;
     this.currentStationIndex = 0;
-
     this.startCurentSeries();
   };
 
   this.nextStation = () => {
     this.currentStationIndex++;
+    this.currentStation = this.stations[this.currentStationIndex];
 
     if (isLastStation()) {
       pubsub.publish(EVENTS.SERIES_END_EVENT, {
@@ -59,7 +59,7 @@ function Spartacus(
         doRestBetweenSeries(this.startNextSeries);
       }
     } else {
-      this.startCurentSeries();
+      this.currentStation.start();
     }
   };
 
@@ -81,7 +81,7 @@ function Spartacus(
     pauseCountdown.start();
   };
 
-  this.startWorkout = () => {
+  const mapStations = () => {
     const isLastStation = (i) => i === STATION_NAMES.length - 1;
 
     STATION_NAMES.forEach((name, i) => {
@@ -95,7 +95,11 @@ function Spartacus(
       const station = new Countdown(name, stationDuration, onDone);
       this.stations.push(station);
     });
+  };
 
+  this.startWorkout = () => {
+    mapStations();
+    pubsub.publish(EVENTS.WORKOUT_START_EVENT);
     this.startNextSeries();
   };
 
