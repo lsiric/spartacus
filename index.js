@@ -1,21 +1,21 @@
 const SECOND = 1000;
 const MINUTE = 60 * SECOND;
-const DEFAULT_STATION_DURATION = 5 * SECOND;
-const DEFAULT_PAUSE_DURATION = 3 * SECOND;
-const DEFAULT_REST_DURATION = 2 * SECOND;
+const DEFAULT_STATION_DURATION = 10 * SECOND;
+const DEFAULT_PAUSE_DURATION = 5 * SECOND;
+const DEFAULT_REST_DURATION = 2 * MINUTE;
 const DEFAULT_SERIES_NUMBER = 3;
 
 const STATION_NAMES = [
   "Goblet Squat",
-  // "Mountain Climber",
-  // "Single-Arm Dumbbell Swing",
-  // "T-Pushup",
-  // "Split Jump",
-  // "Dumbell Row",
-  // "Dumbbell Side Lunge and Touch",
-  // "Pushup-Position Row",
-  // "Dumbbell Lunge and Rotation",
-  // "Dumbbell Push Press",
+  "Mountain Climber",
+  "Single-Arm Dumbbell Swing",
+  "T-Pushup",
+  "Split Jump",
+  "Dumbell Row",
+  "Dumbbell Side Lunge and Touch",
+  "Pushup-Position Row",
+  "Dumbbell Lunge and Rotation",
+  "Dumbbell Push Press",
 ];
 
 // let startAudio = new Audio("audio/boxing-bell.mp3");
@@ -80,34 +80,41 @@ function Spartacus(
   let isRestInProgress = false;
   let restCountdown = undefined;
 
-  this.nextSeries = () => {
+  const isLastStation = () => this.currentStationIndex >= this.stations.length;
+  const isLastSeries = () => this.currentSeries >= numberOfSeries;
+
+  this.startCurentSeries = () => {
+    this.currentStation = this.stations[this.currentStationIndex];
+    this.currentStation.start();
+  };
+
+  this.startNextSeries = () => {
     this.currentSeries++;
     this.currentStationIndex = 0;
 
     clog(`\n*** Series: ${this.currentSeries} START! ***`);
 
-    this.currentStation = this.stations[this.currentStationIndex];
-    this.currentStation.start();
+    this.startCurentSeries();
   };
 
   this.nextStation = () => {
     this.currentStationIndex++;
-    if (this.currentStationIndex >= this.stations.length) {
+    if (isLastStation()) {
       clog(`*** Series ${this.currentSeries} DONE! ***`);
-      if (this.currentSeries >= numberOfSeries) {
+
+      if (isLastSeries()) {
         clog(`\n**********************`);
         clog(`*** WORKOUT DONE!! ***`);
         clog(`**********************\n`);
       } else {
-        createRest(this.nextSeries);
+        doRestBetweenSeries(this.startNextSeries);
       }
     } else {
-      this.currentStation = this.stations[this.currentStationIndex];
-      this.currentStation.start();
+      this.startCurentSeries();
     }
   };
 
-  const createRest = (afterRest = () => {}) => {
+  const doRestBetweenSeries = (afterRest = () => {}) => {
     isRestInProgress = true;
     restCountdown = new Countdown("Rest", restDuration, () => {
       isRestInProgress = false;
@@ -116,7 +123,7 @@ function Spartacus(
     restCountdown.start();
   };
 
-  const createPause = (afterPause = () => {}) => {
+  const doPauseBetweenStations = (afterPause = () => {}) => {
     isPauseInProgress = true;
     pauseCountdown = new Countdown("Pause", pauseDuration, () => {
       isPauseInProgress = false;
@@ -126,9 +133,11 @@ function Spartacus(
   };
 
   this.startWorkout = () => {
-    const isLastStation = (index) => index === STATION_NAMES.length - 1;
+    const isLastStation = (i) => i === STATION_NAMES.length - 1;
+
     STATION_NAMES.forEach((name, i) => {
-      const nextStationWithPause = () => createPause(this.nextStation);
+      const nextStationWithPause = () =>
+        doPauseBetweenStations(this.nextStation);
       const nextStationNoPause = this.nextStation;
       // if last station, don't do pause afterwards
       const onDone = isLastStation(i)
@@ -138,7 +147,7 @@ function Spartacus(
       this.stations.push(station);
     });
 
-    this.nextSeries();
+    this.startNextSeries();
   };
 
   this.pauseWorkout = () => {
