@@ -21,10 +21,12 @@
       src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"
     ></script>
 
+    <link rel="stylesheet" type="text/css" href="index.css" />
+
     <title>Le Spartacus!</title>
     <style>
       body {
-        margin: 0;
+        margin: 7px;
         padding: 0;
       }
     </style>
@@ -32,7 +34,32 @@
 
   <body>
     <noscript> You need to enable JavaScript to run this app. </noscript>
-    <div id="root"></div>
-    <script src="index.js"></script>
+
+    <div class="grid">
+      <div class="box series">
+        Series: <span class="current-series"></span> /
+        <span class="total-series"></span>
+      </div>
+
+      <div class="box station-details">
+        Station: <span class="current-station"></span> /
+        <span class="total-stations"></span>
+      </div>
+
+      <div class="box stations">
+        <span class="station-name"></span>
+      </div>
+
+      <div class="box countdown">
+        <span class="countdown-value">0</span>
+      </div>
+
+      <div class="box done">
+        <span class="workout-done"></span>
+      </div>
+    </div>
+
+    <script type="module" src="index.js"></script>
+    <script type="module" src="event-handlers.js"></script>
   </body>
 </html>
