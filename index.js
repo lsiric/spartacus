@@ -1,19 +1,19 @@
 const SECOND = 1000;
 const MINUTE = 60 * SECOND;
-const DEFAULT_STATION_DURATION = 4 * SECOND;
-const DEFAULT_PAUSE_DURATION = 3 * SECOND;
+const DEFAULT_STATION_DURATION = 2 * SECOND;
+const DEFAULT_PAUSE_DURATION = 2 * SECOND;
 const DEFAULT_REST_DURATION = 2 * MINUTE;
 const STATION_NAMES = [
   "Goblet Squat",
   "Mountain Climber",
-  "Single-Arm Dumbbell Swing",
-  "T-Pushup",
-  "Split Jump",
-  "Dumbell Row",
-  "Dumbbell Side Lunge and Touch",
-  "Pushup-Position Row",
-  "Dumbbell Lunge and Rotation",
-  "Dumbbell Push Press",
+  // "Single-Arm Dumbbell Swing",
+  // "T-Pushup",
+  // "Split Jump",
+  // "Dumbell Row",
+  // "Dumbbell Side Lunge and Touch",
+  // "Pushup-Position Row",
+  // "Dumbbell Lunge and Rotation",
+  // "Dumbbell Push Press",
 ];
 
 // let startAudio = new Audio("audio/boxing-bell.mp3");
@@ -73,57 +73,56 @@ function Spartacus(
   this.stations = [];
   this.currentStationIndex = 0;
   this.isPauseInProgress = false;
-  this.pauseObject = undefined;
+  this.pauseCountdown = undefined;
 
   this.nextStation = () => {
     this.currentStationIndex++;
-    const currentStation = this.stations[this.currentStationIndex];
-    currentStation.start();
+    if (this.currentStationIndex >= this.stations.length) {
+      clog("SESSION OVER!");
+    } else {
+      const currentStation = this.stations[this.currentStationIndex];
+      currentStation.start();
+    }
   };
 
   const createPause = (afterPause = () => {}) => {
     this.isPauseInProgress = true;
-    this.pauseObject = new Countdown("Pause", this.pauseDuration, () => {
+    this.pauseCountdown = new Countdown("Pause", this.pauseDuration, () => {
       this.isPauseInProgress = false;
       afterPause();
     });
-    this.pauseObject.start();
+    this.pauseCountdown.start();
   };
 
-  this.start = () => {
-    STATION_NAMES.forEach((name) => {
-      const doNextStation = () => createPause(this.nextStation);
-      this.stations.push(
-        new Countdown(name, this.stationDuration, doNextStation)
-      );
+  this.startWorkout = () => {
+    STATION_NAMES.forEach((name, i) => {
+      const nextStationWithPause = () => createPause(this.nextStation);
+      // if last station, don't do pause afterwards
+      const onDone =
+        i === STATION_NAMES.length - 1
+          ? this.nextStation
+          : nextStationWithPause;
+
+      const station = new Countdown(name, this.stationDuration, onDone);
+      this.stations.push(station);
     });
 
     const currentStation = this.stations[this.currentStationIndex];
     currentStation.start();
   };
 
-  this.pause = () => {
-    if (this.isPauseInProgress) {
-      this.pauseObject.pause();
-    } else {
-      if (this.currentStationIndex !== undefined) {
-        const currentStation = this.stations[this.currentStationIndex];
-        currentStation.pause();
-      }
-    }
+  this.pauseWorkout = () => {
+    this.isPauseInProgress
+      ? this.pauseCountdown.pause()
+      : this.stations[this.currentStationIndex].pause();
   };
 
-  this.resume = () => {
-    if (this.isPauseInProgress) {
-      this.pauseObject.resume();
-    } else {
-      if (this.currentStationIndex !== undefined) {
-        const currentStation = this.stations[this.currentStationIndex];
-        currentStation.resume();
-      }
-    }
+  this.resumeWorkout = () => {
+    this.isPauseInProgress
+      ? this.pauseCountdown.resume()
+      : this.stations[this.currentStationIndex].resume();
   };
 }
 
-// let spa = new Spartacus();
-// spa.start();
+let spa = new Spartacus();
+spa.startWorkout();
