@@ -1,21 +1,21 @@
 const SECOND = 1000;
 const MINUTE = 60 * SECOND;
-const DEFAULT_STATION_DURATION = 60 * SECOND;
-const DEFAULT_PAUSE_DURATION = 15 * SECOND;
-const DEFAULT_REST_DURATION = 2 * MINUTE;
+const DEFAULT_STATION_DURATION = 5 * SECOND;
+const DEFAULT_PAUSE_DURATION = 3 * SECOND;
+const DEFAULT_REST_DURATION = 2 * SECOND;
 const DEFAULT_SERIES_NUMBER = 3;
 
 const STATION_NAMES = [
   "Goblet Squat",
-  "Mountain Climber",
-  "Single-Arm Dumbbell Swing",
-  "T-Pushup",
-  "Split Jump",
-  "Dumbell Row",
-  "Dumbbell Side Lunge and Touch",
-  "Pushup-Position Row",
-  "Dumbbell Lunge and Rotation",
-  "Dumbbell Push Press",
+  // "Mountain Climber",
+  // "Single-Arm Dumbbell Swing",
+  // "T-Pushup",
+  // "Split Jump",
+  // "Dumbell Row",
+  // "Dumbbell Side Lunge and Touch",
+  // "Pushup-Position Row",
+  // "Dumbbell Lunge and Rotation",
+  // "Dumbbell Push Press",
 ];
 
 // let startAudio = new Audio("audio/boxing-bell.mp3");
@@ -26,31 +26,31 @@ const clog = (txt) => console.log(txt);
 const msToSeconds = (ms) => ms / 1000;
 
 function Countdown(name, duration = 0, onDone = () => {}) {
-  this.interval = undefined;
-  this.isPaused = false;
-  this.elapsedTime = 0;
-  this.remainingTime = duration;
+  let interval = undefined;
+  let isPaused = false;
+  let elapsedTime = 0;
+  let remainingTime = duration;
 
-  const pause = () => (this.isPaused = true);
-  const resume = () => (this.isPaused = false);
+  const pause = () => (isPaused = true);
+  const resume = () => (isPaused = false);
   const stop = () => {
-    clearInterval(this.interval);
-    this.isPaused = false;
-    this.elapsedTime = 0;
-    this.remainingTime = duration;
+    clearInterval(interval);
+    isPaused = false;
+    elapsedTime = 0;
+    remainingTime = duration;
   };
 
   const start = () => {
     if (name) clog(`\nStarting: ${name}`);
 
-    this.interval = setInterval(() => {
-      if (!this.isPaused) {
-        this.elapsedTime = this.elapsedTime + SECOND;
-        this.remainingTime = this.remainingTime - SECOND;
-        clog(`\tremaining time: ${msToSeconds(this.remainingTime)}sec`);
+    interval = setInterval(() => {
+      if (!isPaused) {
+        elapsedTime = elapsedTime + SECOND;
+        remainingTime = remainingTime - SECOND;
+        clog(`\tremaining time: ${msToSeconds(remainingTime)}sec`);
       }
 
-      if (this.elapsedTime >= duration) {
+      if (elapsedTime >= duration) {
         this.stop();
         if (name) clog(`Done: ${name}`);
         onDone();
