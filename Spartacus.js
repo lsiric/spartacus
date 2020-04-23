@@ -59,6 +59,10 @@ function Spartacus(
         doRestBetweenSeries(this.startNextSeries);
       }
     } else {
+      pubsub.publish(EVENTS.STATION_START_EVENT, {
+        totalStations: this.stations.length,
+        currentStation: this.currentStationIndex + 1,
+      });
       this.currentStation.start();
     }
   };
@@ -100,6 +104,10 @@ function Spartacus(
   this.startWorkout = () => {
     mapStations();
     pubsub.publish(EVENTS.WORKOUT_START_EVENT);
+    pubsub.publish(EVENTS.STATION_START_EVENT, {
+      totalStations: this.stations.length,
+      currentStation: this.currentStationIndex + 1,
+    });
     this.startNextSeries();
   };
 
