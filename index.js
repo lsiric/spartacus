@@ -2,7 +2,7 @@ const SECOND = 1000;
 const MINUTE = 60 * SECOND;
 const DEFAULT_STATION_DURATION = 2 * SECOND;
 const DEFAULT_PAUSE_DURATION = 2 * SECOND;
-const DEFAULT_REST_DURATION = 2 * MINUTE;
+const DEFAULT_REST_DURATION = 2 * SECOND;
 const DEEFAULT_SERIES_NUMBER = 2;
 const STATION_NAMES = [
   "Goblet Squat",
@@ -20,7 +20,7 @@ const STATION_NAMES = [
 // let startAudio = new Audio("audio/boxing-bell.mp3");
 // startAudio.play();
 
-// helpers
+// helper methods
 const clog = (txt) => console.log(txt);
 const msToSeconds = (ms) => ms / 1000;
 
@@ -73,18 +73,25 @@ function Spartacus(
   this.currentSeries = 0;
   this.isPauseInProgress = false;
   this.pauseCountdown = undefined;
+  this.restCountdown = undefined;
 
   this.nextSeries = () => {
     this.currentSeries++;
     this.currentStationIndex = 0;
-    if (this.currentSeries > numberOfSeries) {
+    if (this.currentSeries === 1) {
+      clog(`\n*** Series: ${this.currentSeries} START! ***`);
+      const currentStation = this.stations[this.currentStationIndex];
+      currentStation.start();
+    } else if (this.currentSeries > numberOfSeries) {
       clog(`\n**********************`);
       clog(`*** WORKOUT DONE!! ***`);
       clog(`**********************\n`);
     } else {
-      clog(`\n*** Series: ${this.currentSeries} START! ***`);
-      const currentStation = this.stations[this.currentStationIndex];
-      currentStation.start();
+      createRest(() => {
+        clog(`\n*** Series: ${this.currentSeries} START! ***`);
+        const currentStation = this.stations[this.currentStationIndex];
+        currentStation.start();
+      });
     }
   };
 
@@ -97,6 +104,13 @@ function Spartacus(
       const currentStation = this.stations[this.currentStationIndex];
       currentStation.start();
     }
+  };
+
+  const createRest = (afterRest = () => {}) => {
+    this.restCountdown = new Countdown("Rest", restDuration, () => {
+      afterRest();
+    });
+    this.restCountdown.start();
   };
 
   const createPause = (afterPause = () => {}) => {
@@ -122,8 +136,6 @@ function Spartacus(
     });
 
     this.nextSeries();
-    // const currentStation = this.stations[this.currentStationIndex];
-    // currentStation.start();
   };
 
   this.pauseWorkout = () => {
