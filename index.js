@@ -3,6 +3,7 @@ const MINUTE = 60 * SECOND;
 const DEFAULT_STATION_DURATION = 2 * SECOND;
 const DEFAULT_PAUSE_DURATION = 2 * SECOND;
 const DEFAULT_REST_DURATION = 2 * MINUTE;
+const DEEFAULT_SERIES_NUMBER = 2;
 const STATION_NAMES = [
   "Goblet Squat",
   "Mountain Climber",
@@ -63,22 +64,35 @@ function Countdown(name, duration = 0, onDone = () => {}) {
 
 function Spartacus(
   stationDuration = DEFAULT_STATION_DURATION,
+  pauseDuration = DEFAULT_PAUSE_DURATION,
   restDuration = DEFAULT_REST_DURATION,
-  pauseDuration = DEFAULT_PAUSE_DURATION
+  numberOfSeries = DEEFAULT_SERIES_NUMBER
 ) {
-  this.stationDuration = stationDuration;
-  this.restDuration = restDuration;
-  this.pauseDuration = pauseDuration;
-
   this.stations = [];
   this.currentStationIndex = 0;
+  this.currentSeries = 0;
   this.isPauseInProgress = false;
   this.pauseCountdown = undefined;
+
+  this.nextSeries = () => {
+    this.currentSeries++;
+    this.currentStationIndex = 0;
+    if (this.currentSeries > numberOfSeries) {
+      clog(`\n**********************`);
+      clog(`*** WORKOUT DONE!! ***`);
+      clog(`**********************\n`);
+    } else {
+      clog(`\n*** Series: ${this.currentSeries} START! ***`);
+      const currentStation = this.stations[this.currentStationIndex];
+      currentStation.start();
+    }
+  };
 
   this.nextStation = () => {
     this.currentStationIndex++;
     if (this.currentStationIndex >= this.stations.length) {
-      clog("SESSION OVER!");
+      clog(`*** Series ${this.currentSeries} DONE! ***`);
+      this.nextSeries();
     } else {
       const currentStation = this.stations[this.currentStationIndex];
       currentStation.start();
@@ -87,7 +101,7 @@ function Spartacus(
 
   const createPause = (afterPause = () => {}) => {
     this.isPauseInProgress = true;
-    this.pauseCountdown = new Countdown("Pause", this.pauseDuration, () => {
+    this.pauseCountdown = new Countdown("Pause", pauseDuration, () => {
       this.isPauseInProgress = false;
       afterPause();
     });
@@ -103,12 +117,13 @@ function Spartacus(
           ? this.nextStation
           : nextStationWithPause;
 
-      const station = new Countdown(name, this.stationDuration, onDone);
+      const station = new Countdown(name, stationDuration, onDone);
       this.stations.push(station);
     });
 
-    const currentStation = this.stations[this.currentStationIndex];
-    currentStation.start();
+    this.nextSeries();
+    // const currentStation = this.stations[this.currentStationIndex];
+    // currentStation.start();
   };
 
   this.pauseWorkout = () => {
