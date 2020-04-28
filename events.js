@@ -1,4 +1,4 @@
-// "borrowed from David Walsh" : https://davidwalsh.name/pubsub-javascript
+// "borrowed" from David Walsh : https://davidwalsh.name/pubsub-javascript
 const pubsub = (() => {
   let topics = {};
   let hOP = topics.hasOwnProperty;
