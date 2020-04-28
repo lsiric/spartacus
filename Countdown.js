@@ -2,47 +2,53 @@ import { SECOND } from "./config.js";
 import { pubsub, EVENTS } from "./events.js";
 
 function Countdown(name, duration = 0, onDone = () => {}) {
-  let interval = undefined;
-  let isPaused = false;
-  let elapsedTime = 0;
-  let remainingTime = duration;
-
   this.name = name;
   this.duration = duration;
-
-  const pause = () => (isPaused = true);
-  const resume = () => (isPaused = false);
-  const stop = () => {
-    clearInterval(interval);
-    isPaused = false;
-    elapsedTime = 0;
-    remainingTime = this.duration;
-  };
-
-  const start = () => {
-    interval = setInterval(() => {
-      if (!isPaused) {
-        elapsedTime = elapsedTime + SECOND;
-        remainingTime = remainingTime - SECOND;
-
-        pubsub.publish(EVENTS.COUNTDOWN_TICK_EVENT, {
-          name: this.name,
-          remainingTime: remainingTime,
-        });
-      }
-
-      if (elapsedTime >= this.duration) {
-        this.stop();
-
-        onDone();
-      }
-    }, SECOND);
-  };
+  this.isPaused = false;
+  this.elapsedTime = 0;
+  this.remainingTime = duration;
 
   this.start = start;
   this.pause = pause;
   this.resume = resume;
   this.stop = stop;
+
+  let interval = undefined;
+
+  function pause() {
+    this.isPaused = true;
+  }
+
+  function resume() {
+    this.isPaused = false;
+  }
+
+  function stop() {
+    clearInterval(interval);
+    this.isPaused = false;
+    this.elapsedTime = 0;
+    this.remainingTime = this.duration;
+  }
+
+  function start() {
+    interval = setInterval(() => {
+      if (!this.isPaused) {
+        this.elapsedTime = this.elapsedTime + SECOND;
+        this.remainingTime = this.remainingTime - SECOND;
+
+        pubsub.publish(EVENTS.COUNTDOWN_TICK, {
+          name: this.name,
+          remainingTime: this.remainingTime,
+        });
+      }
+
+      if (this.elapsedTime >= this.duration) {
+        this.stop();
+
+        onDone();
+      }
+    }, SECOND);
+  }
 }
 
 export default Countdown;

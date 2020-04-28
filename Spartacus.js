@@ -44,7 +44,7 @@ function Spartacus(
   this.startCurentSeries = () => {
     this.currentStation = this.stations[this.currentStationIndex];
     this.currentStation.start();
-    pubsub.publish(EVENTS.SERIES_START_EVENT, {
+    pubsub.publish(EVENTS.SERIES_START, {
       totalSeries: numberOfSeries,
       currentSeries: this.currentSeries,
     });
@@ -61,17 +61,17 @@ function Spartacus(
     this.currentStation = this.stations[this.currentStationIndex];
 
     if (isLastStation()) {
-      pubsub.publish(EVENTS.SERIES_END_EVENT, {
+      pubsub.publish(EVENTS.SERIES_END, {
         currentSeries: this.currentSeries,
       });
       if (isLastSeries()) {
-        pubsub.publish(EVENTS.WORKOUT_DONE_EVENT);
+        pubsub.publish(EVENTS.WORKOUT_DONE);
       } else {
         doRestBetweenSeries(this.startNextSeries);
       }
     } else {
       const nextStation = this.stations[this.currentStationIndex + 1];
-      pubsub.publish(EVENTS.STATION_START_EVENT, {
+      pubsub.publish(EVENTS.STATION_START, {
         totalStations: this.stations.length,
         currentStation: this.currentStationIndex + 1,
         currentStationName: this.currentStation.name,
@@ -120,8 +120,8 @@ function Spartacus(
     this.startNextSeries();
     this.isWorkoutStarted = true;
     const nextStation = this.stations[this.currentStationIndex + 1];
-    pubsub.publish(EVENTS.WORKOUT_START_EVENT);
-    pubsub.publish(EVENTS.STATION_START_EVENT, {
+    pubsub.publish(EVENTS.WORKOUT_START);
+    pubsub.publish(EVENTS.STATION_START, {
       totalStations: this.stations.length,
       currentStation: this.currentStationIndex + 1,
       currentStationName: this.currentStation.name,
@@ -134,6 +134,7 @@ function Spartacus(
     else if (isRestInProgress) restCountdown.pause();
     else this.currentStation.pause();
     this.isWorkoutPaused = true;
+    pubsub.publish(EVENTS.WORKOUT_PAUSE);
   };
 
   this.resumeWorkout = () => {
@@ -141,6 +142,7 @@ function Spartacus(
     else if (isRestInProgress) restCountdown.resume();
     else this.currentStation.resume();
     this.isWorkoutPaused = false;
+    pubsub.publish(EVENTS.WORKOUT_RESUME);
   };
 }
 

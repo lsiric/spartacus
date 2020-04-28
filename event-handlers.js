@@ -1,9 +1,9 @@
 import { pubsub, EVENTS } from "./events.js";
-import { clog, msToSeconds, setHtml } from "./helpers.js";
+import { msToSeconds, setHtml } from "./helpers.js";
 
 const registerPubSubEvents = () => {
   // event handlers
-  pubsub.subscribe(EVENTS.COUNTDOWN_TICK_EVENT, (obj) => {
+  pubsub.subscribe(EVENTS.COUNTDOWN_TICK, (obj) => {
     const { name, remainingTime } = obj;
 
     setHtml(".station-name", name);
@@ -13,37 +13,27 @@ const registerPubSubEvents = () => {
     }
   });
 
-  pubsub.subscribe(EVENTS.SERIES_START_EVENT, (obj) => {
+  pubsub.subscribe(EVENTS.SERIES_START, (obj) => {
     const { totalSeries, currentSeries } = obj;
     setHtml(".total-series", totalSeries);
     setHtml(".current-series", currentSeries);
     setHtml(".current-station", 1);
-    clog(`\n*** Series: ${currentSeries} START! ***`);
   });
 
-  pubsub.subscribe(EVENTS.SERIES_END_EVENT, (obj) => {
+  pubsub.subscribe(EVENTS.SERIES_END, (obj) => {
     const { currentSeries } = obj;
-    clog(`*** Series ${currentSeries} DONE! ***`);
   });
 
-  pubsub.subscribe(EVENTS.WORKOUT_START_EVENT, (obj) => {
-    clog(`\n***********************`);
-    clog(`*** WORKOUT START!! ***`);
-    clog(`***********************\n`);
-  });
+  pubsub.subscribe(EVENTS.WORKOUT_START, (obj) => {});
 
-  pubsub.subscribe(EVENTS.WORKOUT_DONE_EVENT, (obj) => {
-    clog(`\n**********************`);
-    clog(`*** WORKOUT DONE!! ***`);
-    clog(`**********************\n`);
-
+  pubsub.subscribe(EVENTS.WORKOUT_DONE, (obj) => {
     const startButton = document.getElementById("start-workout");
 
     startButton.innerHTML = "Workout done!";
     startButton.setAttribute("disabled", "disabled");
   });
 
-  pubsub.subscribe(EVENTS.STATION_START_EVENT, (obj) => {
+  pubsub.subscribe(EVENTS.STATION_START, (obj) => {
     const {
       currentStationName,
       totalStations,
@@ -54,8 +44,15 @@ const registerPubSubEvents = () => {
     setHtml(".station-name", currentStationName);
     setHtml(".total-stations", totalStations);
     setHtml(".current-station", currentStation);
-    clog(`nextStationName: ${nextStationName}`);
     setHtml(".next-station-name", nextStationName);
+  });
+
+  pubsub.subscribe(EVENTS.WORKOUT_PAUSE, (obj) => {
+    document.getElementById("pause-mp3").play();
+  });
+
+  pubsub.subscribe(EVENTS.WORKOUT_RESUME, (obj) => {
+    document.getElementById("pause-mp3").play();
   });
 };
 
