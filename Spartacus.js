@@ -1,5 +1,7 @@
 import Countdown from "./Countdown.js";
 import { pubsub, EVENTS } from "./events.js";
+import { registerPubSubEvents } from "./event-handlers.js";
+
 import {
   DEFAULT_STATION_DURATION,
   DEFAULT_PAUSE_DURATION,
@@ -8,8 +10,15 @@ import {
   STATION_NAMES,
 } from "./config.js";
 
-// let startAudio = new Audio("audio/boxing-bell.mp3");
-// startAudio.play();
+// wrapping all pubsub handlers into a "user gesture"
+// workaround because of this : https://stackoverflow.com/questions/38791760/domexception-play-can-only-be-initiated-by-a-user-gesture#38791871
+function registerEvents() {
+  //do some stuff here
+  console.log("registered");
+  registerPubSubEvents();
+  document.removeEventListener("mousemove", registerEvents, false);
+}
+document.addEventListener("mousemove", registerEvents, false);
 
 function Spartacus(
   stationDuration = DEFAULT_STATION_DURATION,
@@ -21,6 +30,8 @@ function Spartacus(
   this.currentStationIndex = 0;
   this.currentStation = undefined;
   this.currentSeries = 0;
+  this.isWorkoutPaused = false;
+  this.isWorkoutStarted = false;
 
   let isPauseInProgress = false;
   let pauseCountdown = undefined;
@@ -109,18 +120,21 @@ function Spartacus(
       currentStation: this.currentStationIndex + 1,
     });
     this.startNextSeries();
+    this.isWorkoutStarted = true;
   };
 
   this.pauseWorkout = () => {
     if (isPauseInProgress) pauseCountdown.pause();
     else if (isRestInProgress) restCountdown.pause();
     else this.currentStation.pause();
+    this.isWorkoutPaused = true;
   };
 
   this.resumeWorkout = () => {
     if (isPauseInProgress) pauseCountdown.resume();
     else if (isRestInProgress) restCountdown.resume();
     else this.currentStation.resume();
+    this.isWorkoutPaused = false;
   };
 }
 

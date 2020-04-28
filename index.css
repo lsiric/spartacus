@@ -84,3 +84,9 @@ body {
   top: 48%;
   left: 0;
 }
+
+#start-workout {
+  text-transform: uppercase;
+  font-size: x-large;
+  padding: 6px;
+}
