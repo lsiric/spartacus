@@ -6,24 +6,6 @@ body {
   font-size: x-large;
 }
 
-.container {
-  display: inline-grid;
-  grid-template-columns: auto;
-
-  background-color: #3e2723;
-  margin: 10px;
-  border-radius: 10px;
-}
-.item {
-  background-color: #80cbc4;
-  border: 1px solid #fff;
-  color: #353535;
-  padding: 40px;
-  font-size: 30px;
-  text-align: center;
-  width: 70vh;
-}
-
 .countdown-value {
   width: 92px;
   max-width: 92px;
@@ -69,7 +51,37 @@ body {
 }
 
 #start-workout {
-  text-transform: uppercase;
+  /* text-transform: uppercase;
   font-size: x-large;
   padding: 6px;
+  margin: 0; */
+}
+
+.text-center {
+  text-align: center;
+}
+
+.pt5 {
+  padding-top: 5rem;
+}
+.pb5 {
+  padding-bottom: 5rem;
+}
+.pt4 {
+  padding-top: 4rem;
+}
+.pb4 {
+  padding-bottom: 4rem;
+}
+.pt3 {
+  padding-top: 3rem;
+}
+.pb3 {
+  padding-bottom: 3rem;
+}
+.pt2 {
+  padding-top: 2rem;
+}
+.pb2 {
+  padding-bottom: 2rem;
 }
