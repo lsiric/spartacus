@@ -116,7 +116,6 @@ function Spartacus(
   };
 
   this.startWorkout = () => {
-    // const warmupCountdown = new Countdown("Warmup!", pauseDuration, () => {
     mapStations();
     this.startNextSeries();
     this.isWorkoutStarted = true;
@@ -128,8 +127,6 @@ function Spartacus(
       currentStationName: this.currentStation.name,
       nextStationName: nextStation ? nextStation.name : "",
     });
-    // });
-    // warmupCountdown.start();
   };
 
   this.pauseWorkout = () => {
