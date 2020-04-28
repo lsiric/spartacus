@@ -1,5 +1,5 @@
 import { pubsub, EVENTS } from "./events.js";
-import { msToSeconds, setHtml } from "./helpers.js";
+import { msToSeconds, setHtml, playSound } from "./helpers.js";
 
 const registerPubSubEvents = () => {
   // event handlers
@@ -48,11 +48,11 @@ const registerPubSubEvents = () => {
   });
 
   pubsub.subscribe(EVENTS.WORKOUT_PAUSE, (obj) => {
-    document.getElementById("pause-mp3").play();
+    playSound("audio/pause.mp3");
   });
 
   pubsub.subscribe(EVENTS.WORKOUT_RESUME, (obj) => {
-    document.getElementById("pause-mp3").play();
+    playSound("audio/pause.mp3");
   });
 };
 
