@@ -35,32 +35,34 @@
   <body>
     <noscript> You need to enable JavaScript to run this app. </noscript>
 
-    <div class="grid">
-      <div class="box series">
+    <div class="container">
+      <div class="item">
         Series: <span class="current-series"></span> /
         <span class="total-series"></span>
       </div>
 
-      <div class="box station-details">
+      <div class="item">
         Station: <span class="current-station"></span> /
         <span class="total-stations"></span>
       </div>
 
-      <div class="box stations">
+      <div class="item">
         <span class="station-name"></span>
       </div>
 
-      <div class="box countdown">
+      <div class="item">
         <span class="countdown-value">0</span>
       </div>
 
-      <div class="box done">
-        <span class="workout-done"></span>
+      <div class="item">
+        Next Station:
+        <span class="next-station-name"></span>
       </div>
-    </div>
 
-    <div>
-      <button id="start-workout">START WORKOUT</button>
+      <div class="item">
+        <span class="workout-done"></span>
+        <button id="start-workout">START WORKOUT</button>
+      </div>
     </div>
 
     <audio id="countdown-mp3" src="audio/countdown.mp3"></audio>

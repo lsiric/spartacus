@@ -70,9 +70,12 @@ function Spartacus(
         doRestBetweenSeries(this.startNextSeries);
       }
     } else {
+      const nextStation = this.stations[this.currentStationIndex + 1];
       pubsub.publish(EVENTS.STATION_START_EVENT, {
         totalStations: this.stations.length,
         currentStation: this.currentStationIndex + 1,
+        currentStationName: this.currentStation.name,
+        nextStationName: nextStation ? nextStation.name : "",
       });
       this.currentStation.start();
     }
@@ -113,14 +116,20 @@ function Spartacus(
   };
 
   this.startWorkout = () => {
+    // const warmupCountdown = new Countdown("Warmup!", pauseDuration, () => {
     mapStations();
+    this.startNextSeries();
+    this.isWorkoutStarted = true;
+    const nextStation = this.stations[this.currentStationIndex + 1];
     pubsub.publish(EVENTS.WORKOUT_START_EVENT);
     pubsub.publish(EVENTS.STATION_START_EVENT, {
       totalStations: this.stations.length,
       currentStation: this.currentStationIndex + 1,
+      currentStationName: this.currentStation.name,
+      nextStationName: nextStation ? nextStation.name : "",
     });
-    this.startNextSeries();
-    this.isWorkoutStarted = true;
+    // });
+    // warmupCountdown.start();
   };
 
   this.pauseWorkout = () => {

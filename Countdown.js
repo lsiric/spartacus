@@ -7,13 +7,16 @@ function Countdown(name, duration = 0, onDone = () => {}) {
   let elapsedTime = 0;
   let remainingTime = duration;
 
+  this.name = name;
+  this.duration = duration;
+
   const pause = () => (isPaused = true);
   const resume = () => (isPaused = false);
   const stop = () => {
     clearInterval(interval);
     isPaused = false;
     elapsedTime = 0;
-    remainingTime = duration;
+    remainingTime = this.duration;
   };
 
   const start = () => {
@@ -23,12 +26,12 @@ function Countdown(name, duration = 0, onDone = () => {}) {
         remainingTime = remainingTime - SECOND;
 
         pubsub.publish(EVENTS.COUNTDOWN_TICK_EVENT, {
-          name: name,
+          name: this.name,
           remainingTime: remainingTime,
         });
       }
 
-      if (elapsedTime >= duration) {
+      if (elapsedTime >= this.duration) {
         this.stop();
 
         onDone();

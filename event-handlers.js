@@ -4,8 +4,9 @@ import { clog, msToSeconds } from "./helpers.js";
 const registerPubSubEvents = () => {
   // event handlers
   pubsub.subscribe(EVENTS.COUNTDOWN_TICK_EVENT, (obj) => {
-    const { remainingTime } = obj;
-    document.querySelector(".station-name").innerHTML = `${obj.name}`;
+    const { name, remainingTime } = obj;
+
+    document.querySelector(".station-name").innerHTML = name;
     document.querySelector(".countdown-value").innerHTML = msToSeconds(
       remainingTime
     );
@@ -41,12 +42,17 @@ const registerPubSubEvents = () => {
   });
 
   pubsub.subscribe(EVENTS.STATION_START_EVENT, (obj) => {
-    document.querySelector(
-      ".total-stations"
-    ).innerHTML = `${obj.totalStations}`;
-    document.querySelector(
-      ".current-station"
-    ).innerHTML = `${obj.currentStation}`;
+    const {
+      currentStationName,
+      totalStations,
+      currentStation,
+      nextStationName,
+    } = obj;
+
+    document.querySelector(".station-name").innerHTML = currentStationName;
+    document.querySelector(".total-stations").innerHTML = totalStations;
+    document.querySelector(".current-station").innerHTML = currentStation;
+    document.querySelector(".next-station-name").innerHTML = nextStationName;
   });
 };
 
