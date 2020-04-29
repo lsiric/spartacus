@@ -40,6 +40,10 @@ const registerPubSubEvents = () => {
     setHtml(".total-stations", totalStations);
     setHtml(".current-station", currentStation);
     setHtml(".next-station-name", nextStationName);
+
+    document
+      .querySelector(".station-image")
+      .setAttribute("src", `assets/images/${currentStation}.png`);
   });
 
   pubsub.subscribe(EVENTS.WORKOUT_PAUSE, () => {
