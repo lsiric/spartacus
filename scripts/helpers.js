@@ -1,3 +1,5 @@
+const createjs = window.createjs;
+
 const clog = (txt) => console.log(txt);
 const msToSeconds = (ms) => ms / 1000;
 const setHtml = (selector, html) =>
