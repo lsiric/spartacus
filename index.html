@@ -30,7 +30,7 @@
     <title>Le Spartacus!</title>
     <style>
       body {
-        margin: 7px;
+        margin: 0;
         padding: 0;
       }
     </style>
@@ -40,19 +40,16 @@
     <noscript> You need to enable JavaScript to run this app. </noscript>
 
     <header class="text-center">
-      <a href="#" class="logo"
-        >Series: <span class="current-series">1</span> /
-        <span class="total-series">3</span></a
-      >
+      <a href="#" class="logo">
+        <span class="station-name">Le Spartacus!</span>
+      </a>
     </header>
 
     <div class="container">
-      <div class="row pt3">
-        <div class="col-sm-12 text-center">
-          <span class="station-name"></span> (<span
-            class="current-station"
-          ></span
-          >/<span class="total-stations"></span>)
+      <div class="row pt2">
+        <div class="col-sm-4 text-right">Next Station:</div>
+        <div class="col-sm-4 text text-center">
+          <span class="next-station-name"></span>
         </div>
       </div>
 
@@ -73,9 +70,16 @@
 
     <footer class="sticky">
       <div class="row">
-        <div class="col-sm-4">Next Station:</div>
-        <div class="col-sm-8">
-          <span class="next-station-name"></span>
+        <div class="col-sm-6 text-center">
+          Series: <span class="current-series">1</span> /
+          <span class="total-series">3</span>
+        </div>
+
+        <div class="col-sm-6 text-center">
+          Station:
+          <span class="current-station">1</span>/<span class="total-stations"
+            >10</span
+          >
         </div>
       </div>
     </footer>

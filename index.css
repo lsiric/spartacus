@@ -61,6 +61,14 @@ body {
   text-align: center;
 }
 
+.text-right {
+  text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
+
 .pt5 {
   padding-top: 5rem;
 }
