@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -12,15 +11,8 @@
       content="black-translucent"
     />
     <meta name="theme-color" content="#000000" />
-    <script
-      crossorigin
-      src="https://unpkg.com/react@16/umd/react.development.js"
-    ></script>
-    <script
-      crossorigin
-      src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"
-    ></script>
 
+    <script src="lib/soundjs.min.js"></script>
     <link
       rel="stylesheet"
       href="https://cdn.rawgit.com/Chalarangelo/mini.css/v3.0.1/dist/mini-default.min.css"
@@ -84,9 +76,7 @@
       </div>
     </footer>
 
-    <audio id="countdown-mp3" src="audio/countdown.mp3"></audio>
-
-    <script type="module" src="event-handlers.js"></script>
-    <script type="module" src="index.js"></script>
+    <script type="module" src="scripts/event-handlers.js"></script>
+    <script type="module" src="scripts/index.js"></script>
   </body>
 </html>

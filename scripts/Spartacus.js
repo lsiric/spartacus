@@ -10,15 +10,7 @@ import {
   STATION_NAMES,
 } from "./config.js";
 
-// wrapping all pubsub handlers into a "user gesture"
-// workaround because of this : https://stackoverflow.com/questions/38791760/domexception-play-can-only-be-initiated-by-a-user-gesture#38791871
-function registerEvents() {
-  //do some stuff here
-  console.log("registered");
-  registerPubSubEvents();
-  document.removeEventListener("mousemove", registerEvents, false);
-}
-document.addEventListener("mousemove", registerEvents, false);
+registerPubSubEvents();
 
 function Spartacus(
   stationDuration = STATION_DURATION,
