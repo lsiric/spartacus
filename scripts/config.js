@@ -4,7 +4,7 @@ createjs.Sound.registerSound({ src: "audio/countdown.mp3", id: "countdown" });
 
 const SECOND = 1000;
 const MINUTE = 60 * SECOND;
-const STATION_DURATION = 7 * SECOND;
+const STATION_DURATION = 60 * SECOND;
 const PAUSE_DURATION = 16 * SECOND;
 const REST_DURATION = 2 * MINUTE + 1 * SECOND;
 const SERIES_NUMBER = 3;
