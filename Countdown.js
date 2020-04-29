@@ -4,9 +4,9 @@ import { pubsub, EVENTS } from "./events.js";
 function Countdown(name, duration = 0, onDone = () => {}) {
   this.name = name;
   this.duration = duration;
-  this.isPaused = false;
   this.elapsedTime = 0;
   this.remainingTime = duration;
+  this.isPaused = false;
 
   this.start = start;
   this.pause = pause;
@@ -44,7 +44,6 @@ function Countdown(name, duration = 0, onDone = () => {}) {
 
       if (this.elapsedTime >= this.duration) {
         this.stop();
-
         onDone();
       }
     }, SECOND);
