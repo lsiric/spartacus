@@ -21,10 +21,6 @@ const registerPubSubEvents = () => {
     setHtml(".current-station", 1);
   });
 
-  pubsub.subscribe(EVENTS.SERIES_END, (obj) => {});
-
-  pubsub.subscribe(EVENTS.WORKOUT_START, (obj) => {});
-
   pubsub.subscribe(EVENTS.WORKOUT_DONE, (obj) => {
     const startButton = document.getElementById("start-workout");
 
@@ -55,6 +51,12 @@ const registerPubSubEvents = () => {
     if (countdownInstance) countdownInstance.paused = false;
     playSound("pause");
   });
+
+  // TODO: add sounds to these events
+  pubsub.subscribe(EVENTS.SERIES_END, (obj) => {});
+  pubsub.subscribe(EVENTS.WORKOUT_START, (obj) => {});
+  pubsub.subscribe(EVENTS.PAUSE_START, (obj) => {});
+  pubsub.subscribe(EVENTS.PAUSE_DONE, (obj) => {});
 };
 
 export { registerPubSubEvents };

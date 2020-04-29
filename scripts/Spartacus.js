@@ -85,9 +85,11 @@ function Spartacus(
 
   const doStationWithPause = (afterPause = () => {}) => {
     this.isPauseInProgress = true;
+    pubsub.publish(EVENTS.PAUSE_START);
     pauseInterval = new Countdown("Pause", pauseDuration, () => {
       this.isPauseInProgress = false;
       afterPause();
+      pubsub.publish(EVENTS.PAUSE_DONE);
     });
     pauseInterval.start();
   };

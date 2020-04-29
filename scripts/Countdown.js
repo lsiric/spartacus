@@ -45,6 +45,9 @@ function Countdown(name, duration = 0, onDone = () => {}) {
       if (this.elapsedTime >= this.duration) {
         this.stop();
         onDone();
+        pubsub.publish(EVENTS.COUNTDOWN_DONE, {
+          name: this.name,
+        });
       }
     }, SECOND);
   }
