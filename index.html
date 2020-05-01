@@ -31,57 +31,59 @@
   <body>
     <noscript> You need to enable JavaScript to run this app. </noscript>
 
-    <header class="text-center">
-      <h1 class="station-name header-text trim-text">
-        Le Spartacus!
-      </h1>
-    </header>
+    <div class="content">
+      <header class="b0 text-center">
+        <h1 class="station-name header-text trim-text">
+          Le Spartacus!
+        </h1>
+      </header>
 
-    <div class="container p0">
-      <!-- hide for now -->
-      <div class="row mt1 pb1 pt1 bg-white hide">
-        <div class="col-sm-offset-2 col-sm-8 text-center">
-          <img
-            class="station-image"
-            src="assets/images/johnny.jpeg"
-            alt="HTML5 Doctor Logo"
-          />
+      <div class="container p0">
+        <!-- hide for now -->
+        <div class="row mt1 pb1 pt1 bg-white hide">
+          <div class="col-sm-offset-2 col-sm-8 text-center">
+            <img
+              class="station-image"
+              src="assets/images/johnny.jpeg"
+              alt="HTML5 Doctor Logo"
+            />
+          </div>
         </div>
-      </div>
 
-      <div class="row pt2">
-        <div class="col-sm-12 text-center">
-          <button id="start-workout" class="tertiary">
-            START WORKOUT
-          </button>
+        <div class="row pt2">
+          <div class="col-sm-12 text-center">
+            <button id="start-workout" class="tertiary">
+              START WORKOUT
+            </button>
+          </div>
         </div>
-      </div>
 
-      <div class="row pt2">
-        <div class="col-sm-12 text-center">
-          <span class="countdown-value">0</span>
+        <div class="row pt2">
+          <div class="col-sm-12 text-center">
+            <span class="countdown-value">0</span>
+          </div>
         </div>
-      </div>
 
-      <div class="row pt2">
-        <div class="col-sm-12 text-center fs10">Next Station</div>
-        <div class="col-sm-12 text text-center">
-          <span class="next-station-name"></span>
+        <div class="row pt2">
+          <div class="col-sm-12 text-center fs10">Next Station</div>
+          <div class="col-sm-12 text text-center">
+            <span class="next-station-name"></span>
+          </div>
         </div>
-      </div>
 
-      <!-- content "filler" since retarded mini.css doesn't have working sticky footer "unless there's enough content" -->
-      <div class="row pt10 pb10"></div>
+        <!-- content "filler" since retarded mini.css doesn't have working sticky footer "unless there's enough content" -->
+        <!-- <div class="row pt10 pb10"></div> -->
+      </div>
     </div>
 
-    <footer class="sticky">
+    <footer class="footer">
       <div class="row">
-        <div class="col-sm-6 text-center">
+        <div class="col-sm-6 text-center greasy-bold">
           Series: <span class="current-series">1</span> /
           <span class="total-series">3</span>
         </div>
 
-        <div class="col-sm-6 text-center">
+        <div class="col-sm-6 text-center greasy-bold">
           Station:
           <span class="current-station">1</span>/<span class="total-stations"
             >10</span

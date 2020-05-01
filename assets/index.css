@@ -6,6 +6,22 @@ body {
   font-size: x-large;
 }
 
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+.content {
+  min-height: 100%;
+}
+.container {
+  padding-bottom: 2.5rem;
+}
+.footer {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  margin-top: -2.5rem;
+}
 .countdown-value {
   width: 92px;
   max-width: 92px;
@@ -37,7 +53,6 @@ body {
   left: -3px;
   z-index: -1;
 }
-
 .countdown-value:after {
   content: "";
   width: 100%;
@@ -49,7 +64,6 @@ body {
   top: 48%;
   left: 0;
 }
-
 .station-image {
   width: 100%;
 }
@@ -72,24 +86,11 @@ body {
 .bg-white {
   background-color: #fff;
 }
-
 .text-center {
   text-align: center;
 }
-
-.text-right {
-  text-align: right;
-}
-
-.text-left {
-  text-align: left;
-}
-
-.pt10 {
-  padding-top: 10rem;
-}
-.pb10 {
-  padding-bottom: 10rem;
+.greasy-bold {
+  font-weight: 800;
 }
 .pt5 {
   padding-top: 5rem;
@@ -97,23 +98,8 @@ body {
 .pb5 {
   padding-bottom: 5rem;
 }
-.pt4 {
-  padding-top: 4rem;
-}
-.pb4 {
-  padding-bottom: 4rem;
-}
-.pt3 {
-  padding-top: 3rem;
-}
-.pb3 {
-  padding-bottom: 3rem;
-}
 .pt2 {
   padding-top: 2rem;
-}
-.pb2 {
-  padding-bottom: 2rem;
 }
 .pt1 {
   padding-top: 1rem;
@@ -121,17 +107,14 @@ body {
 .pb1 {
   padding-bottom: 1rem;
 }
-.pl1 {
-  padding-left: 1rem;
-}
-.pr1 {
-  padding-right: 1rem;
-}
 .p0 {
   padding: 0;
 }
 .m0 {
   margin: 0;
+}
+.b0 {
+  border: none;
 }
 .mt2 {
   margin-top: 2rem;
