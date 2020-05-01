@@ -32,21 +32,14 @@
     <noscript> You need to enable JavaScript to run this app. </noscript>
 
     <header class="text-center">
-      <a href="#" class="logo">
-        <span class="station-name">Le Spartacus!</span>
-      </a>
+      <span class="station-name truncate"
+        >Le Spartacus Le Spartacus Le Spartacus!</span
+      >
     </header>
 
     <div class="container p0">
-      <div class="row pt1">
-        <div class="col-sm-12 text-center fs10">Next Station</div>
-        <div class="col-sm-12 text text-center">
-          <span class="next-station-name"></span>
-        </div>
-      </div>
-
       <!-- hide for now -->
-      <div class="row mt1 pb1 pt1 bg-white" style="display: none;">
+      <div class="row mt1 pb1 pt1 bg-white hide">
         <div class="col-sm-offset-2 col-sm-8 text-center">
           <img
             class="station-image"
@@ -64,9 +57,16 @@
         </div>
       </div>
 
-      <div class="row pt3 pb3">
+      <div class="row pt2">
         <div class="col-sm-12 text-center">
           <span class="countdown-value">0</span>
+        </div>
+      </div>
+
+      <div class="row pt2">
+        <div class="col-sm-12 text-center fs10">Next Station</div>
+        <div class="col-sm-12 text text-center">
+          <span class="next-station-name"></span>
         </div>
       </div>
 
