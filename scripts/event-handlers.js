@@ -21,7 +21,7 @@ const registerPubSubEvents = () => {
     setHtml(".current-station", 1);
   });
 
-  pubsub.subscribe(EVENTS.WORKOUT_DONE, (obj) => {
+  pubsub.subscribe(EVENTS.WORKOUT_END, (obj) => {
     const startButton = document.getElementById("start-workout");
 
     startButton.innerHTML = "Workout done!";
@@ -60,7 +60,7 @@ const registerPubSubEvents = () => {
   pubsub.subscribe(EVENTS.SERIES_END, (obj) => {});
   pubsub.subscribe(EVENTS.WORKOUT_START, (obj) => {});
   pubsub.subscribe(EVENTS.PAUSE_START, (obj) => {});
-  pubsub.subscribe(EVENTS.PAUSE_DONE, (obj) => {});
+  pubsub.subscribe(EVENTS.PAUSE_END, (obj) => {});
 };
 
 export { registerPubSubEvents };

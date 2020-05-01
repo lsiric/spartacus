@@ -1,7 +1,6 @@
 import Countdown from "./Countdown.js";
 import { pubsub, EVENTS } from "./events.js";
 import { registerPubSubEvents } from "./event-handlers.js";
-
 import {
   STATION_DURATION,
   PAUSE_DURATION,
@@ -10,7 +9,7 @@ import {
   STATION_NAMES,
 } from "./config.js";
 
-registerPubSubEvents();
+const isLastStation = (i) => i === STATION_NAMES.length - 1;
 
 function Spartacus(
   stationDuration = STATION_DURATION,
@@ -26,35 +25,36 @@ function Spartacus(
 
   this.isPauseInProgress = false;
   this.isRestInProgress = false;
+  this.pauseCountdown = undefined;
+  this.restCountdown = undefined;
+
   this.stations = STATION_NAMES.map((name, i) => {
     const stationWithPause = () => doStationWithPause(this.nextStation);
-    const stationNoPause = this.nextStation;
-    const onDone =
-      i === STATION_NAMES.length - 1 ? stationNoPause : stationWithPause;
+    const stationWithouPause = this.nextStation;
+    const onDone = isLastStation(i) ? stationWithouPause : stationWithPause;
     return new Countdown(name, stationDuration, onDone);
   });
-
-  let pauseInterval = undefined;
-  let restInterval = undefined;
-
-  const doRestBetweenSeries = (afterRest = () => {}) => {
-    this.isRestInProgress = true;
-    restInterval = new Countdown("Rest", restDuration, () => {
-      this.isRestInProgress = false;
-      afterRest();
-    });
-    restInterval.start();
-  };
 
   const doStationWithPause = (afterPause = () => {}) => {
     this.isPauseInProgress = true;
     pubsub.publish(EVENTS.PAUSE_START);
-    pauseInterval = new Countdown("Pause", pauseDuration, () => {
+    this.pauseCountdown = new Countdown("Pause", pauseDuration, () => {
       this.isPauseInProgress = false;
       afterPause();
-      pubsub.publish(EVENTS.PAUSE_DONE);
+      pubsub.publish(EVENTS.PAUSE_END);
     });
-    pauseInterval.start();
+    this.pauseCountdown.start();
+  };
+
+  this.startRest = () => {
+    this.isRestInProgress = true;
+    pubsub.publish(EVENTS.REST_START);
+    this.restCountdown = new Countdown("Rest", restDuration, () => {
+      this.isRestInProgress = false;
+      this.startNextSeries();
+      pubsub.publish(EVENTS.REST_END);
+    });
+    this.restCountdown.start();
   };
 
   this.startCurentSeries = () => {
@@ -74,6 +74,7 @@ function Spartacus(
   this.nextStation = () => {
     this.currentStationIndex++;
     this.currentStation = this.stations[this.currentStationIndex];
+
     const nextStation = this.stations[this.currentStationIndex + 1];
     const isLastStation = this.currentStationIndex + 1 >= this.stations.length;
     const isLastSeries = this.currentSeries >= numberOfSeries;
@@ -83,9 +84,9 @@ function Spartacus(
         currentSeries: this.currentSeries,
       });
       if (isLastSeries) {
-        pubsub.publish(EVENTS.WORKOUT_DONE);
+        pubsub.publish(EVENTS.WORKOUT_END);
       } else {
-        doRestBetweenSeries(this.startNextSeries);
+        this.startRest();
       }
     } else {
       this.currentStation.start();
@@ -100,22 +101,23 @@ function Spartacus(
   };
 
   this.startWorkout = () => {
+    registerPubSubEvents();
     this.isWorkoutStarted = true;
     this.startNextSeries();
     pubsub.publish(EVENTS.WORKOUT_START);
   };
 
   this.pauseWorkout = () => {
-    if (this.isPauseInProgress) pauseInterval.pause();
-    else if (this.isRestInProgress) restInterval.pause();
+    if (this.isPauseInProgress) this.pauseCountdown.pause();
+    else if (this.isRestInProgress) this.restCountdown.pause();
     else this.currentStation.pause();
     this.isWorkoutPaused = true;
     pubsub.publish(EVENTS.WORKOUT_PAUSE);
   };
 
   this.resumeWorkout = () => {
-    if (this.isPauseInProgress) pauseInterval.resume();
-    else if (this.isRestInProgress) restInterval.resume();
+    if (this.isPauseInProgress) this.pauseCountdown.resume();
+    else if (this.isRestInProgress) this.restCountdown.resume();
     else this.currentStation.resume();
     this.isWorkoutPaused = false;
     pubsub.publish(EVENTS.WORKOUT_RESUME);

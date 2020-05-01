@@ -45,7 +45,7 @@ function Countdown(name, duration = 0, onDone = () => {}) {
       if (this.elapsedTime >= this.duration) {
         this.stop();
         onDone();
-        pubsub.publish(EVENTS.COUNTDOWN_DONE, {
+        pubsub.publish(EVENTS.COUNTDOWN_END, {
           name: this.name,
         });
       }
