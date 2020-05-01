@@ -56,7 +56,7 @@ function Spartacus(
   this.nextStation = () => {
     this.currentStationIndex++;
     this.currentStation = this.stations[this.currentStationIndex];
-    const isLastStation = this.currentStationIndex >= this.stations.length;
+    const isLastStation = this.currentStationIndex + 1 >= this.stations.length;
     const isLastSeries = this.currentSeries >= numberOfSeries;
 
     if (isLastStation) {
