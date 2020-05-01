@@ -44,6 +44,7 @@ function Spartacus(
       totalSeries: numberOfSeries,
       currentSeries: this.currentSeries,
     });
+    this.publishStationStart();
   };
 
   this.startNextSeries = () => {
@@ -69,9 +70,10 @@ function Spartacus(
         doRestBetweenSeries(this.startNextSeries);
       }
     } else {
-      this.publishStationStart();
       this.currentStation.start();
     }
+
+    this.publishStationStart();
   };
 
   const doRestBetweenSeries = (afterRest = () => {}) => {
@@ -99,7 +101,6 @@ function Spartacus(
   this.startWorkout = () => {
     this.startNextSeries();
     pubsub.publish(EVENTS.WORKOUT_START);
-    this.publishStationStart();
   };
 
   this.publishStationStart = () => {
