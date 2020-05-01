@@ -18,7 +18,7 @@ function Spartacus(
   restDuration = REST_DURATION,
   numberOfSeries = SERIES_NUMBER
 ) {
-  this.currentStationIndex = 0;
+  this.currentStationIndex = -1;
   this.currentStation = undefined;
   this.currentSeries = 0;
   this.isWorkoutPaused = false;
@@ -36,45 +36,6 @@ function Spartacus(
 
   let pauseInterval = undefined;
   let restInterval = undefined;
-
-  this.startCurentSeries = () => {
-    this.currentStation = this.stations[this.currentStationIndex];
-    this.currentStation.start();
-    pubsub.publish(EVENTS.SERIES_START, {
-      totalSeries: numberOfSeries,
-      currentSeries: this.currentSeries,
-    });
-    this.publishStationStart();
-  };
-
-  this.startNextSeries = () => {
-    this.isWorkoutStarted = true;
-    this.currentSeries++;
-    this.currentStationIndex = 0;
-    this.startCurentSeries();
-  };
-
-  this.nextStation = () => {
-    this.currentStationIndex++;
-    this.currentStation = this.stations[this.currentStationIndex];
-    const isLastStation = this.currentStationIndex + 1 >= this.stations.length;
-    const isLastSeries = this.currentSeries >= numberOfSeries;
-
-    if (isLastStation) {
-      pubsub.publish(EVENTS.SERIES_END, {
-        currentSeries: this.currentSeries,
-      });
-      if (isLastSeries) {
-        pubsub.publish(EVENTS.WORKOUT_DONE);
-      } else {
-        doRestBetweenSeries(this.startNextSeries);
-      }
-    } else {
-      this.currentStation.start();
-    }
-
-    this.publishStationStart();
-  };
 
   const doRestBetweenSeries = (afterRest = () => {}) => {
     this.isRestInProgress = true;
@@ -96,21 +57,52 @@ function Spartacus(
     pauseInterval.start();
   };
 
-  this.getNextStation = () => this.stations[this.currentStationIndex + 1];
-
-  this.startWorkout = () => {
-    this.startNextSeries();
-    pubsub.publish(EVENTS.WORKOUT_START);
+  this.startCurentSeries = () => {
+    this.nextStation();
+    pubsub.publish(EVENTS.SERIES_START, {
+      totalSeries: numberOfSeries,
+      currentSeries: this.currentSeries,
+    });
   };
 
-  this.publishStationStart = () => {
-    const nextStation = this.getNextStation();
+  this.startNextSeries = () => {
+    this.currentSeries++;
+    this.currentStationIndex = -1;
+    this.startCurentSeries();
+  };
+
+  this.nextStation = () => {
+    this.currentStationIndex++;
+    this.currentStation = this.stations[this.currentStationIndex];
+    const nextStation = this.stations[this.currentStationIndex + 1];
+    const isLastStation = this.currentStationIndex + 1 >= this.stations.length;
+    const isLastSeries = this.currentSeries >= numberOfSeries;
+
+    if (isLastStation) {
+      pubsub.publish(EVENTS.SERIES_END, {
+        currentSeries: this.currentSeries,
+      });
+      if (isLastSeries) {
+        pubsub.publish(EVENTS.WORKOUT_DONE);
+      } else {
+        doRestBetweenSeries(this.startNextSeries);
+      }
+    } else {
+      this.currentStation.start();
+    }
+
     pubsub.publish(EVENTS.STATION_START, {
       totalStations: this.stations.length,
       currentStation: this.currentStationIndex + 1,
       currentStationName: this.currentStation.name,
       nextStationName: nextStation ? nextStation.name : "",
     });
+  };
+
+  this.startWorkout = () => {
+    this.isWorkoutStarted = true;
+    this.startNextSeries();
+    pubsub.publish(EVENTS.WORKOUT_START);
   };
 
   this.pauseWorkout = () => {
