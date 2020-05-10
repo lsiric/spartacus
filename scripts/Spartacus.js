@@ -28,11 +28,33 @@ function Spartacus(
   this.pauseCountdown = undefined;
   this.restCountdown = undefined;
 
+  pubsub.subscribe(EVENTS.STATION_END, () => {
+    const isLastStation = this.currentStationIndex + 1 >= this.stations.length;
+    const isLastSeries = this.currentSeries >= numberOfSeries;
+
+    if (isLastStation) {
+      pubsub.publish(EVENTS.SERIES_END, {
+        currentSeries: this.currentSeries,
+      });
+
+      if (isLastSeries) {
+        pubsub.publish(EVENTS.WORKOUT_END);
+      } else {
+        this.startRestBetweenSeries();
+      }
+    }
+  });
+
   this.stations = STATION_NAMES.map((name, i) => {
     const stationWithPause = () => doStationWithPause(this.nextStation);
-    const stationWithouPause = this.nextStation;
-    const onDone = isLastStation(i) ? stationWithouPause : stationWithPause;
-    return new Countdown(name, stationDuration, onDone);
+    const stationWithoutPause = () => this.nextStation();
+    const isLast = isLastStation(i);
+    console.log(`isLastStation: ${isLast}`);
+    const onDone = isLast ? stationWithoutPause : stationWithPause;
+    return new Countdown(name, stationDuration, () => {
+      pubsub.publish(EVENTS.STATION_END);
+      onDone();
+    });
   });
 
   const doStationWithPause = (afterPause = () => {}) => {
@@ -46,7 +68,7 @@ function Spartacus(
     this.pauseCountdown.start();
   };
 
-  this.startRest = () => {
+  this.startRestBetweenSeries = () => {
     this.isRestInProgress = true;
     pubsub.publish(EVENTS.REST_START);
     this.restCountdown = new Countdown("Rest", restDuration, () => {
@@ -57,18 +79,16 @@ function Spartacus(
     this.restCountdown.start();
   };
 
-  this.startCurentSeries = () => {
-    this.nextStation();
+  this.startNextSeries = () => {
+    this.currentSeries++;
+    this.currentStationIndex = -1;
+
     pubsub.publish(EVENTS.SERIES_START, {
       totalSeries: numberOfSeries,
       currentSeries: this.currentSeries,
     });
-  };
 
-  this.startNextSeries = () => {
-    this.currentSeries++;
-    this.currentStationIndex = -1;
-    this.startCurentSeries();
+    this.nextStation();
   };
 
   this.nextStation = () => {
@@ -76,28 +96,16 @@ function Spartacus(
     this.currentStation = this.stations[this.currentStationIndex];
 
     const nextStation = this.stations[this.currentStationIndex + 1];
-    const isLastStation = this.currentStationIndex + 1 >= this.stations.length;
-    const isLastSeries = this.currentSeries >= numberOfSeries;
 
-    if (isLastStation) {
-      pubsub.publish(EVENTS.SERIES_END, {
-        currentSeries: this.currentSeries,
-      });
-      if (isLastSeries) {
-        pubsub.publish(EVENTS.WORKOUT_END);
-      } else {
-        this.startRest();
-      }
-    } else {
+    if (this.currentStation) {
       this.currentStation.start();
+      pubsub.publish(EVENTS.STATION_START, {
+        totalStations: this.stations.length,
+        currentStation: this.currentStationIndex + 1,
+        currentStationName: this.currentStation.name,
+        nextStationName: nextStation ? nextStation.name : "",
+      });
     }
-
-    pubsub.publish(EVENTS.STATION_START, {
-      totalStations: this.stations.length,
-      currentStation: this.currentStationIndex + 1,
-      currentStationName: this.currentStation.name,
-      nextStationName: nextStation ? nextStation.name : "",
-    });
   };
 
   this.startWorkout = () => {

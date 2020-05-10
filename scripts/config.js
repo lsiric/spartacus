@@ -4,7 +4,7 @@ createjs.Sound.registerSound({ src: "audio/countdown.mp3", id: "countdown" });
 
 const SECOND = 1000;
 const MINUTE = 60 * SECOND;
-const STATION_DURATION = 3 * SECOND;
+const STATION_DURATION = 5 * SECOND;
 const PAUSE_DURATION = 2 * SECOND;
 const REST_DURATION = 2 * SECOND;
 const SERIES_NUMBER = 3;
@@ -12,7 +12,7 @@ const SERIES_NUMBER = 3;
 const STATION_NAMES = [
   "Goblet Squat",
   "Mountain Climber",
-  "Single-Arm Dumbbell Swing",
+  // "Single-Arm Dumbbell Swing",
   // "T-Pushup",
   // "Split Jump",
   // "Dumbell Row",
