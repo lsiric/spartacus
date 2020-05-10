@@ -1,5 +1,8 @@
 import Spartacus from "./Spartacus.js";
-let spa = new Spartacus();
+import { defaultParams } from "./config.js";
+import { setHtml } from "./helpers.js";
+setHtml(".station-name", defaultParams.name);
+let spa = new Spartacus(defaultParams);
 
 document.getElementById("start-workout").addEventListener("click", (event) => {
   if (!spa.isWorkoutStarted) {

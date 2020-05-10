@@ -1,22 +1,16 @@
 import Countdown from "./Countdown.js";
 import { pubsub, EVENTS } from "./events.js";
 import { registerPubSubEvents } from "./event-handlers.js";
-import {
-  STATION_DURATION,
-  PAUSE_DURATION,
-  REST_DURATION,
-  SERIES_NUMBER,
-  STATION_NAMES,
-} from "./config.js";
+import { STATION_NAMES } from "./config.js";
 
 const isLastStation = (i) => i === STATION_NAMES.length - 1;
 
-function Spartacus(
-  stationDuration = STATION_DURATION,
-  pauseDuration = PAUSE_DURATION,
-  restDuration = REST_DURATION,
-  numberOfSeries = SERIES_NUMBER
-) {
+function Spartacus({
+  stationDuration,
+  pauseDuration,
+  restDuration,
+  numberOfSeries,
+}) {
   this.currentStationIndex = -1;
   this.currentStation = undefined;
   this.currentSeries = 0;
@@ -48,9 +42,7 @@ function Spartacus(
   this.stations = STATION_NAMES.map((name, i) => {
     const stationWithPause = () => doStationWithPause(this.nextStation);
     const stationWithoutPause = () => this.nextStation();
-    const isLast = isLastStation(i);
-    console.log(`isLastStation: ${isLast}`);
-    const onDone = isLast ? stationWithoutPause : stationWithPause;
+    const onDone = isLastStation(i) ? stationWithoutPause : stationWithPause;
     return new Countdown(name, stationDuration, () => {
       pubsub.publish(EVENTS.STATION_END);
       onDone();
@@ -94,7 +86,6 @@ function Spartacus(
   this.nextStation = () => {
     this.currentStationIndex++;
     this.currentStation = this.stations[this.currentStationIndex];
-
     const nextStation = this.stations[this.currentStationIndex + 1];
 
     if (this.currentStation) {
