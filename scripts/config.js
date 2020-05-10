@@ -4,26 +4,25 @@ createjs.Sound.registerSound({ src: "audio/countdown.mp3", id: "countdown" });
 
 const SECOND = 1000;
 const MINUTE = 60 * SECOND;
-const STATION_DURATION = 60 * SECOND;
-const PAUSE_DURATION = 15 * SECOND;
+const STATION_DURATION = 40 * SECOND;
+const PAUSE_DURATION = 20 * SECOND;
 const REST_DURATION = 60 * SECOND;
 const SERIES_NUMBER = 3;
 
 const STATION_NAMES = [
+  "Plank with leg lift",
+  "Dumbell Chop",
+  "Dumbell Lunge",
+  "Single leg deadlift",
+  "Dumbell push press",
   "Goblet Squat",
-  "Mountain Climber",
-  "Single-Arm Dumbbell Swing",
-  "T-Pushup",
-  "Split Jump",
-  "Dumbell Row",
-  "Dumbbell Side Lunge and Touch",
-  "Pushup-Position Row",
-  "Dumbbell Lunge and Rotation",
-  "Dumbbell Push Press",
+  "Dumbell alternating Row",
+  "Dumbell Side Lunge and Touch",
+  "Dumbell deadlift",
 ];
 
 const defaultParams = {
-  name: "Le Spartacus!",
+  name: "Le Wonderwoman!",
   stationDuration: STATION_DURATION,
   pauseDuration: PAUSE_DURATION,
   restDuration: REST_DURATION,
