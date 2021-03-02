@@ -35,7 +35,6 @@ const registerPubSubEvents = () => {
       currentStation,
       nextStationName,
     } = obj;
-    console.log(JSON.stringify(obj, null, 2));
     setHtml(".station-name", currentStationName);
     setHtml(".total-stations", totalStations);
     setHtml(".current-station", currentStation);
