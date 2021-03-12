@@ -8,7 +8,6 @@ const registerPubSubEvents = () => {
   pubsub.subscribe(EVENTS.COUNTDOWN_TICK, (obj) => {
     const { name, remainingTime } = obj;
 
-    setHtml(".station-name", name);
     setHtml(".countdown-value", msToSeconds(remainingTime));
     if (remainingTime === 5000) countdownInstance = playSound("countdown");
     if (remainingTime <= 0) countdownInstance = null;
@@ -23,8 +22,9 @@ const registerPubSubEvents = () => {
 
   pubsub.subscribe(EVENTS.WORKOUT_END, (obj) => {
     const startButton = document.getElementById("start-workout");
-
-    startButton.innerHTML = "Workout done!";
+    const msg = "WORKOUT DONE!";
+    setHtml(".station-name", msg);
+    startButton.innerHTML = msg;
     startButton.setAttribute("disabled", "disabled");
   });
 
@@ -36,14 +36,10 @@ const registerPubSubEvents = () => {
       nextStationName,
     } = obj;
     console.log(JSON.stringify(obj, null, 2));
-    setHtml(".station-name", currentStationName);
+    setHtml(".station-name", `Station: \n${currentStationName}`);
     setHtml(".total-stations", totalStations);
     setHtml(".current-station", currentStation);
     setHtml(".next-station-name", nextStationName);
-
-    document
-      .querySelector(".station-image")
-      .setAttribute("src", `assets/images/${currentStation}.png`);
   });
 
   pubsub.subscribe(EVENTS.WORKOUT_PAUSE, () => {
@@ -57,9 +53,13 @@ const registerPubSubEvents = () => {
   });
 
   // TODO: add sounds to these events
-  pubsub.subscribe(EVENTS.SERIES_END, (obj) => {});
+  pubsub.subscribe(EVENTS.SERIES_END, (obj) => {
+    setHtml(".station-name", "Two Minutes Pause!");
+  });
   pubsub.subscribe(EVENTS.WORKOUT_START, (obj) => {});
-  pubsub.subscribe(EVENTS.PAUSE_START, (obj) => {});
+  pubsub.subscribe(EVENTS.PAUSE_START, (obj) => {
+    setHtml(".station-name", "Small Pause!");
+  });
   pubsub.subscribe(EVENTS.PAUSE_END, (obj) => {});
 };
 
