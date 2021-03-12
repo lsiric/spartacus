@@ -32,11 +32,13 @@
     <noscript> You need to enable JavaScript to run this app. </noscript>
 
     <div class="content">
-      <header class="b0 text-center">
-        <h1 class="station-name header-text trim-text">
-          Le Spartacus!
-        </h1>
-      </header>
+
+      <div class="row pt1 pb1 bg-grey">
+        <div class="col-sm-12 text-center fs10">Next Station</div>
+        <div class="col-sm-12 text text-center">
+          <span class="next-station-name"></span>
+        </div>
+      </div>
 
       <div class="container p0">
         <!-- hide for now -->
@@ -64,12 +66,11 @@
           </div>
         </div>
 
-        <div class="row pt2">
-          <div class="col-sm-12 text-center fs10">Next Station</div>
-          <div class="col-sm-12 text text-center">
-            <span class="next-station-name"></span>
-          </div>
-        </div>
+        <header class="mt2 b0 text-center">
+          <h1 class="station-name header-text trim-text">
+            Le Spartacus!
+          </h1>
+        </header>
 
         <!-- content "filler" since retarded mini.css doesn't have working sticky footer "unless there's enough content" -->
         <!-- <div class="row pt10 pb10"></div> -->
@@ -78,10 +79,6 @@
 
     <footer class="footer">
       <div class="row">
-        <div class="col-sm-6 text-center greasy-bold">
-          Series: <span class="current-series">1</span> /
-          <span class="total-series">3</span>
-        </div>
 
         <div class="col-sm-6 text-center greasy-bold">
           Station:
@@ -89,6 +86,12 @@
             >10</span
           >
         </div>
+
+        <div class="col-sm-6 text-center greasy-bold">
+          Series: <span class="current-series">1</span> /
+          <span class="total-series">3</span>
+        </div>
+
       </div>
     </footer>
 

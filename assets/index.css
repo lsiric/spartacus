@@ -12,6 +12,10 @@ body {
   margin: 0;
 }
 
+button {
+  margin: 0;
+}
+
 header {
   background-color: orange;
   height: auto;
@@ -90,6 +94,9 @@ header {
 
 .bg-white {
   background-color: #fff;
+}
+.bg-grey {
+  background-color: grey;
 }
 .text-center {
   text-align: center;
