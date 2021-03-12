@@ -17,8 +17,10 @@ button {
 }
 
 header {
-  background-color: orange;
   height: auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 .content {
   min-height: 100%;
@@ -76,27 +78,37 @@ header {
 .station-image {
   width: 100%;
 }
+
 .next-station-name {
   display: block;
   height: 24px;
 }
 
 @media (min-width: 320px) {
-  .header-text {
+  .station-name {
     max-width: 300px;
   }
 }
 @media (min-width: 480px) {
-  .header-text {
+  .station-name {
     max-width: 460px;
   }
 }
 
+.bg-orange {
+  background-color: orange;
+}
 .bg-white {
   background-color: #fff;
 }
 .bg-grey {
   background-color: grey;
+}
+.white {
+  color: #fff;
+}
+.black {
+  color: #000;
 }
 .text-center {
   text-align: center;
