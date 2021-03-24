@@ -39,6 +39,7 @@ function Countdown(name, duration = 0, onDone = () => {}) {
         pubsub.publish(EVENTS.COUNTDOWN_TICK, {
           name: this.name,
           remainingTime: this.remainingTime,
+          duration: this.duration,
         });
       }
 

@@ -6,10 +6,12 @@ const registerPubSubEvents = () => {
 
   // event handlers
   pubsub.subscribe(EVENTS.COUNTDOWN_TICK, (obj) => {
-    const { name, remainingTime } = obj;
+    const { remainingTime, duration } = obj;
 
     setHtml(".countdown-value", msToSeconds(remainingTime));
     if (remainingTime === 5000) countdownInstance = playSound("countdown");
+    if (duration / remainingTime === 2)
+      countdownInstance = playSound("halfTime");
     if (remainingTime <= 0) countdownInstance = null;
   });
 
@@ -35,7 +37,9 @@ const registerPubSubEvents = () => {
       currentStation,
       nextStationName,
     } = obj;
-    console.log(JSON.stringify(obj, null, 2));
+
+    countdownInstance = playSound("start");
+
     setHtml(".station-name", `Station: \n${currentStationName}`);
     setHtml(".total-stations", totalStations);
     setHtml(".current-station", currentStation);
@@ -54,11 +58,11 @@ const registerPubSubEvents = () => {
 
   // TODO: add sounds to these events
   pubsub.subscribe(EVENTS.SERIES_END, (obj) => {
-    setHtml(".station-name", "Two Minutes Pause!");
+    setHtml(".station-name", "Two Minutes Break!");
   });
   pubsub.subscribe(EVENTS.WORKOUT_START, (obj) => {});
   pubsub.subscribe(EVENTS.PAUSE_START, (obj) => {
-    setHtml(".station-name", "Small Pause!");
+    setHtml(".station-name", "Short Break!");
   });
   pubsub.subscribe(EVENTS.PAUSE_END, (obj) => {});
 };
