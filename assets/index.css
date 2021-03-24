@@ -26,12 +26,12 @@ header {
   min-height: 100%;
 }
 .container {
-  padding-bottom: 2.5rem;
+  padding-bottom: 3rem;
 }
 .footer {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-  margin-top: -2.5rem;
+  margin-top: -3rem;
 }
 .countdown-value {
   width: 92px;
@@ -149,6 +149,12 @@ header {
 .fs10 {
   font-size: 10px;
 }
+.fs18 {
+  font-size: 18px;
+}
+.fs22 {
+  font-size: 22px;
+}
 .fs2 {
   font-size: 2rem;
 }
@@ -157,7 +163,7 @@ header {
 }
 .trim-text {
   display: inline-block;
-  white-space: nowrap;
+  /* white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+  text-overflow: ellipsis; */
 }
