@@ -25,7 +25,7 @@ const STATION_NAMES = [
 ];
 
 const defaultParams = {
-  name: "Le Spartacus!",
+  name: "Spartacus Workout",
   stationDuration: STATION_DURATION,
   pauseDuration: PAUSE_DURATION,
   restDuration: REST_DURATION,
