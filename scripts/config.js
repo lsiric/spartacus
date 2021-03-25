@@ -24,7 +24,7 @@ const STATION_NAMES = [
 ];
 
 const defaultParams = {
-  name: "Le Wonderwoman!",
+  name: "Lady Spartacus",
   stationDuration: STATION_DURATION,
   pauseDuration: PAUSE_DURATION,
   restDuration: REST_DURATION,
