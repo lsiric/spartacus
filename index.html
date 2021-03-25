@@ -15,9 +15,10 @@
     <script src="./external-lib/soundjs.min.js"></script>
     <link
       rel="stylesheet"
-      href="https://cdn.rawgit.com/Chalarangelo/mini.css/v3.0.1/dist/mini-default.min.css"
+      href="./external-lib/mini-default.min.css"
     />
     <link rel="stylesheet" type="text/css" href="./assets/index.css" />
+    <link rel="manifest" href="/manifest.json">
 
     <title>Le Spartacus!</title>
     <style>
@@ -32,21 +33,25 @@
     <noscript> You need to enable JavaScript to run this app. </noscript>
 
     <div class="content">
-      <header class="b0 text-center">
-        <h1 class="station-name header-text trim-text">
-          Le Spartacus!
-        </h1>
+
+      <header>
+        <div class="row pt1 pb1 bg-grey white">
+          <div class="col-sm-12 text-center">Next Station:</div>
+          <div class="col-sm-12 text text-center fs18">
+            <span class="next-station-name"></span>
+          </div>
+        </div>
       </header>
 
       <div class="container p0">
         <!-- hide for now -->
         <div class="row mt1 pb1 pt1 bg-white hide">
           <div class="col-sm-offset-2 col-sm-8 text-center">
-            <img
+            <!-- <img
               class="station-image"
               src="assets/images/johnny.jpeg"
               alt="HTML5 Doctor Logo"
-            />
+            /> -->
           </div>
         </div>
 
@@ -64,10 +69,11 @@
           </div>
         </div>
 
-        <div class="row pt2">
-          <div class="col-sm-12 text-center fs10">Next Station</div>
-          <div class="col-sm-12 text text-center">
-            <span class="next-station-name"></span>
+        <div class="row mt2 bg-orange">
+          <div class="col-sm-12 text-center">
+            <h1 class="station-name trim-text black">
+              Le Spartacus!
+            </h1>
           </div>
         </div>
 
@@ -78,17 +84,19 @@
 
     <footer class="footer">
       <div class="row">
-        <div class="col-sm-6 text-center greasy-bold">
-          Series: <span class="current-series">1</span> /
-          <span class="total-series">3</span>
-        </div>
 
-        <div class="col-sm-6 text-center greasy-bold">
+        <div class="col-sm-6 text-center greasy-bold fs22">
           Station:
           <span class="current-station">1</span>/<span class="total-stations"
             >10</span
           >
         </div>
+
+        <div class="col-sm-6 text-center greasy-bold fs22">
+          Series: <span class="current-series">1</span> /
+          <span class="total-series">3</span>
+        </div>
+
       </div>
     </footer>
 

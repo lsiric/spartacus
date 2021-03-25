@@ -1,6 +1,8 @@
 // sound handlers
+createjs.Sound.registerSound({ src: "audio/boxing-bell.mp3", id: "start" });
 createjs.Sound.registerSound({ src: "audio/pause.mp3", id: "pause" });
 createjs.Sound.registerSound({ src: "audio/countdown.mp3", id: "countdown" });
+createjs.Sound.registerSound({ src: "audio/half-time.mp3", id: "halfTime" });
 
 const SECOND = 1000;
 const MINUTE = 60 * SECOND;

@@ -16,3 +16,11 @@ document.getElementById("start-workout").addEventListener("click", (event) => {
     event.target.textContent = "RESUME WORKOUT";
   }
 });
+
+window.onload = () => {
+  "use strict";
+
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("./sw.js");
+  }
+};

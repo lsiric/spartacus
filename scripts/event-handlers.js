@@ -6,11 +6,12 @@ const registerPubSubEvents = () => {
 
   // event handlers
   pubsub.subscribe(EVENTS.COUNTDOWN_TICK, (obj) => {
-    const { name, remainingTime } = obj;
+    const { remainingTime, duration } = obj;
 
-    setHtml(".station-name", name);
     setHtml(".countdown-value", msToSeconds(remainingTime));
     if (remainingTime === 5000) countdownInstance = playSound("countdown");
+    if (duration / remainingTime === 2)
+      countdownInstance = playSound("halfTime");
     if (remainingTime <= 0) countdownInstance = null;
   });
 
@@ -23,8 +24,9 @@ const registerPubSubEvents = () => {
 
   pubsub.subscribe(EVENTS.WORKOUT_END, (obj) => {
     const startButton = document.getElementById("start-workout");
-
-    startButton.innerHTML = "Workout done!";
+    const msg = "WORKOUT DONE!";
+    setHtml(".station-name", msg);
+    startButton.innerHTML = msg;
     startButton.setAttribute("disabled", "disabled");
   });
 
@@ -35,14 +37,12 @@ const registerPubSubEvents = () => {
       currentStation,
       nextStationName,
     } = obj;
-    setHtml(".station-name", currentStationName);
+
+    countdownInstance = playSound("start");
+    setHtml(".station-name", `Station: \n${currentStationName}`);
     setHtml(".total-stations", totalStations);
     setHtml(".current-station", currentStation);
     setHtml(".next-station-name", nextStationName);
-
-    document
-      .querySelector(".station-image")
-      .setAttribute("src", `assets/images/${currentStation}.png`);
   });
 
   pubsub.subscribe(EVENTS.WORKOUT_PAUSE, () => {
@@ -55,10 +55,13 @@ const registerPubSubEvents = () => {
     playSound("pause");
   });
 
-  // TODO: add sounds to these events
-  pubsub.subscribe(EVENTS.SERIES_END, (obj) => {});
+  pubsub.subscribe(EVENTS.SERIES_END, (obj) => {
+    setHtml(".station-name", "Two Minutes Break!");
+  });
   pubsub.subscribe(EVENTS.WORKOUT_START, (obj) => {});
-  pubsub.subscribe(EVENTS.PAUSE_START, (obj) => {});
+  pubsub.subscribe(EVENTS.PAUSE_START, (obj) => {
+    setHtml(".station-name", "Short Break!");
+  });
   pubsub.subscribe(EVENTS.PAUSE_END, (obj) => {});
 };
 
