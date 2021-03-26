@@ -9,7 +9,7 @@ const registerPubSubEvents = () => {
     const { remainingTime, duration } = obj;
 
     setHtml(".countdown-value", msToSeconds(remainingTime));
-    if (remainingTime === 5000) countdownInstance = playSound("countdown");
+    if (remainingTime === 3000) countdownInstance = playSound("countdown");
     if (duration / remainingTime === 2)
       countdownInstance = playSound("halfTime");
     if (remainingTime <= 0) countdownInstance = null;
