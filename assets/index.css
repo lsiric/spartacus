@@ -23,8 +23,8 @@ header {
   border: 0;
 }
 
-#station-image {
-  width: 40%;
+img {
+  max-width: 100%;
   height: auto;
 }
 
