@@ -17,6 +17,11 @@
       rel="stylesheet"
       href="./external-lib/mini-default.min.css"
     />
+    <script src="./external-lib/modal.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="./external-lib/modal.min.css"
+    />
     <link rel="stylesheet" type="text/css" href="./assets/index.css" />
     <link rel="manifest" href="/manifest.json">
 
@@ -78,16 +83,18 @@
     <footer class="footer">
       <div class="row">
 
-        <div class="col-sm-6 text-center greasy-bold fs22">
-          Station:
-          <span class="current-station"></span>/<span class="total-stations"
-            ></span
-          >
+        <div class="col-sm-6 text-center">
+          <div id="station-list" class="station-list greasy-bold fs22">
+            Station:
+            <span class="current-station"></span>/<span class="total-stations"></span>
+          </div>
         </div>
 
-        <div class="col-sm-6 text-center greasy-bold fs22">
-          Series: <span class="current-series"></span> /
-          <span class="total-series"></span>
+        <div class="col-sm-6 text-center">
+          <div id="series-progress" class="series-progress greasy-bold fs22">
+            Series: <span class="current-series"></span> /
+            <span class="total-series"></span>
+          </div>
         </div>
 
       </div>

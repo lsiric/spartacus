@@ -173,3 +173,11 @@ img {
   overflow: hidden;
   text-overflow: ellipsis; */
 }
+.jPopup {
+  color: #fff;
+  background: #353535;
+}
+
+.border-orange {
+  border: 1px dotted orange;
+}
