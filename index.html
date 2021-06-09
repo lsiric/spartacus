@@ -17,9 +17,13 @@
       rel="stylesheet"
       href="./external-lib/mini-default.min.css"
     />
+    <script src="./external-lib/modal.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="./external-lib/modal.min.css"
+    />
     <link rel="stylesheet" type="text/css" href="./assets/index.css" />
     <link rel="manifest" href="/manifest.json">
-
     <title>Lady Spartacus</title>
     <style>
       body {
@@ -44,16 +48,6 @@
       </header>
 
       <div class="container p0">
-        <!-- hide for now -->
-        <div class="row mt1 pb1 pt1 bg-white hide">
-          <div class="col-sm-offset-2 col-sm-8 text-center">
-            <!-- <img
-              class="station-image"
-              src="assets/images/johnny.jpeg"
-              alt="HTML5 Doctor Logo"
-            /> -->
-          </div>
-        </div>
 
         <div class="row pt2">
           <div class="col-sm-12 text-center">
@@ -77,24 +71,29 @@
           </div>
         </div>
 
-        <!-- content "filler" since retarded mini.css doesn't have working sticky footer "unless there's enough content" -->
-        <!-- <div class="row pt10 pb10"></div> -->
+       <div class="row mt2 hide">
+         <div class="col-sm-offset-3 col-sm-6 text-center">
+           <img id="station-image" src="android-chrome-512x512.png" alt="" class="img">
+         </div>
+       </div>
       </div>
     </div>
 
     <footer class="footer">
       <div class="row">
 
-        <div class="col-sm-6 text-center greasy-bold fs22">
-          Station:
-          <span class="current-station"></span>/<span class="total-stations"
-            ></span
-          >
+        <div class="col-sm-6 text-center">
+          <div id="station-list" class="station-list greasy-bold fs22">
+            Station:
+            <span class="current-station"></span>/<span class="total-stations"></span>
+          </div>
         </div>
 
-        <div class="col-sm-6 text-center greasy-bold fs22">
-          Series: <span class="current-series"></span> /
-          <span class="total-series"></span>
+        <div class="col-sm-6 text-center">
+          <div id="series-progress" class="series-progress greasy-bold fs22">
+            Series: <span class="current-series"></span> /
+            <span class="total-series"></span>
+          </div>
         </div>
 
       </div>

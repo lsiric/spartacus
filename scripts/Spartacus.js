@@ -22,9 +22,11 @@ function Spartacus({
   this.pauseCountdown = undefined;
   this.restCountdown = undefined;
 
+  this.numberOfSeries = numberOfSeries;
+
   pubsub.subscribe(EVENTS.STATION_END, () => {
     const isLastStation = this.currentStationIndex + 1 >= this.stations.length;
-    const isLastSeries = this.currentSeries >= numberOfSeries;
+    const isLastSeries = this.currentSeries >= this.numberOfSeries;
 
     if (isLastStation) {
       pubsub.publish(EVENTS.SERIES_END, {
@@ -76,7 +78,7 @@ function Spartacus({
     this.currentStationIndex = -1;
 
     pubsub.publish(EVENTS.SERIES_START, {
-      totalSeries: numberOfSeries,
+      totalSeries: this.numberOfSeries,
       currentSeries: this.currentSeries,
     });
 

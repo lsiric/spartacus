@@ -31,6 +31,7 @@ const registerPubSubEvents = () => {
   });
 
   pubsub.subscribe(EVENTS.STATION_START, (obj) => {
+    console.log(obj);
     const {
       currentStationName,
       totalStations,
@@ -39,6 +40,9 @@ const registerPubSubEvents = () => {
     } = obj;
 
     countdownInstance = playSound("start");
+
+    const img = document.getElementById("station-image");
+    img.src = `./assets/images/${currentStation}.png`;
 
     setHtml(".station-name", `Station: \n${currentStationName}`);
     setHtml(".total-stations", totalStations);

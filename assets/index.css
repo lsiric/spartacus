@@ -22,6 +22,12 @@ header {
   padding: 0;
   border: 0;
 }
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
 .content {
   min-height: 100%;
 }
@@ -166,4 +172,12 @@ header {
   /* white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis; */
+}
+.jPopup {
+  color: #fff;
+  background: #353535;
+}
+
+.border-orange {
+  border: 1px dotted orange;
 }
