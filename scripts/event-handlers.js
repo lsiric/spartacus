@@ -42,6 +42,7 @@ const registerPubSubEvents = () => {
 
     countdownInstance = playSound("start");
     setHtml(".station-name", `Station: \n${currentStationName}`);
+    setHtml(".total-stations", totalStations);
     setHtml(".current-station", currentStation);
     setHtml(".next-station-name", nextStationName);
   });
