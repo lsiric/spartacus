@@ -18,6 +18,7 @@ const registerPubSubEvents = () => {
   pubsub.subscribe(EVENTS.SERIES_START, (obj) => {
     const { totalSeries, currentSeries } = obj;
     setHtml(".total-series", totalSeries);
+    setHtml(".total-stations", totalStations);
     setHtml(".current-series", currentSeries);
     setHtml(".current-station", 1);
   });
@@ -40,12 +41,7 @@ const registerPubSubEvents = () => {
     } = obj;
 
     countdownInstance = playSound("start");
-
-    const img = document.getElementById("station-image");
-    img.src = `./assets/images/${currentStation}.png`;
-
     setHtml(".station-name", `Station: \n${currentStationName}`);
-    setHtml(".total-stations", totalStations);
     setHtml(".current-station", currentStation);
     setHtml(".next-station-name", nextStationName);
   });
@@ -63,11 +59,10 @@ const registerPubSubEvents = () => {
   pubsub.subscribe(EVENTS.SERIES_END, (obj) => {
     setHtml(".station-name", "Two Minutes Break!");
   });
-  pubsub.subscribe(EVENTS.WORKOUT_START, (obj) => {});
+
   pubsub.subscribe(EVENTS.PAUSE_START, (obj) => {
     setHtml(".station-name", "Short Break!");
   });
-  pubsub.subscribe(EVENTS.PAUSE_END, (obj) => {});
 };
 
 export { registerPubSubEvents };

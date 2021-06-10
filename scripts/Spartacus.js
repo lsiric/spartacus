@@ -11,6 +11,11 @@ function Spartacus({
   restDuration,
   numberOfSeries,
 }) {
+  this.stationDuration = stationDuration;
+  this.pauseDuration = pauseDuration;
+  this.restDuration = restDuration;
+  this.numberOfSeries = numberOfSeries;
+
   this.currentStationIndex = -1;
   this.currentStation = undefined;
   this.currentSeries = 0;
@@ -21,8 +26,6 @@ function Spartacus({
   this.isRestInProgress = false;
   this.pauseCountdown = undefined;
   this.restCountdown = undefined;
-
-  this.numberOfSeries = numberOfSeries;
 
   pubsub.subscribe(EVENTS.STATION_END, () => {
     const isLastStation = this.currentStationIndex + 1 >= this.stations.length;
