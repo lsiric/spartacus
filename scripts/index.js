@@ -18,27 +18,48 @@ document.getElementById("start-workout").addEventListener("click", (event) => {
   }
 });
 
-document.getElementById("station-list").addEventListener("click", (event) => {
-  const stationsHtml = spa.stations
-    .map((s) => {
-      const isActive = spa.currentStation && s.name === spa.currentStation.name;
-      return `<li class="${isActive ? "border-orange" : ""}">${s.name}</li>`;
-    })
-    .join("");
-  var stationsPopup = new jPopup({
-    content: `
-      <div>
-        <span>Station List: </span>
-        <ol>${stationsHtml}</ol>
-      </div>`,
-    transition: "slideInFromBottom",
-    onClose: function ($popupElement) {
-      $popupElement.remove();
-    },
-  });
+document
+  .getElementById("station-list-btn")
+  .addEventListener("click", (event) => {
+    const stationsHtml = spa.stations
+      .map((s, i) => {
+        const isActive =
+          spa.currentStation && s.name === spa.currentStation.name;
+        return `        
+        <div class="row">
+          <div class="col-sm-12 mt1 mb1 pb1 station-name">
+            ${i + 1}. ${s.name}
+          </div>
+          <div class="col-sm-offset-1 col-sm-10 mb2 text-center ${
+            isActive ? "orange" : ""
+          }">
+            <img class="img" src="./assets/images/${i + 1}.png">
+          </div>
+        </div>
+        `;
+      })
+      .join("");
 
-  stationsPopup.open();
-});
+    const popupContent = `
+    <div class="content station-list">
+      <div class="row">
+        <div class="col-sm-12 pt1 pb1">
+          <span>Station List: </span>
+        </div>
+      </div>
+      ${stationsHtml}
+    </div>`;
+
+    var stationsPopup = new jPopup({
+      content: popupContent,
+      transition: "slideInFromBottom",
+      onClose: function ($popupElement) {
+        $popupElement.remove();
+      },
+    });
+
+    stationsPopup.open();
+  });
 
 document
   .getElementById("series-progress")

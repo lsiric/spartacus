@@ -41,9 +41,6 @@ const registerPubSubEvents = () => {
 
     countdownInstance = playSound("start");
 
-    const img = document.getElementById("station-image");
-    img.src = `./assets/images/${currentStation}.png`;
-
     setHtml(".station-name", `Station: \n${currentStationName}`);
     setHtml(".total-stations", totalStations);
     setHtml(".current-station", currentStation);
