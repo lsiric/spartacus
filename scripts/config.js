@@ -6,6 +6,7 @@ createjs.Sound.registerSound({ src: "audio/half-time.mp3", id: "halfTime" });
 
 const SECOND = 1000;
 const MINUTE = 60 * SECOND;
+
 const STATION_DURATION = 40 * SECOND;
 const PAUSE_DURATION = 20 * SECOND;
 const REST_DURATION = 60 * SECOND;
