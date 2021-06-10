@@ -73,6 +73,10 @@ document
       <div>Total Series: ${spa.numberOfSeries}</div>
       <div>Total Stations: ${spa.stations.length}</div>
       </br>
+      <div>Station Duration: ${spa.stationDuration / 1000}sec</div>
+      <div>Pause Duration: ${spa.pauseDuration / 1000}sec</div>
+      <div>Rest Duration: ${spa.restDuration / 1000}sec</div>
+      </br>
       <div>Current Serie: ${spa.currentSeries}</div>
       <div>Current Station: ${spa.currentStationIndex + 1}</div>
     `;
