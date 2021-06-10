@@ -16,7 +16,7 @@ const registerPubSubEvents = () => {
   });
 
   pubsub.subscribe(EVENTS.SERIES_START, (obj) => {
-    const { totalSeries, currentSeries } = obj;
+    const { totalSeries, currentSeries, totalStations } = obj;
     setHtml(".total-series", totalSeries);
     setHtml(".total-stations", totalStations);
     setHtml(".current-series", currentSeries);

@@ -193,11 +193,10 @@ img {
   transform: initial;
   top: 15%;
 }
-#station-list-btn {
-  border: 1px dotted black;
-}
+#station-list-btn,
 #series-progress-btn {
   border: 1px dotted black;
+  cursor: pointer;
 }
 .station-list .station-name {
   border-bottom: 1px solid #000;
