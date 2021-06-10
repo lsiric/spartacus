@@ -80,7 +80,7 @@ const initSpartacus = () => {
     });
 
   document
-    .getElementById("series-progress")
+    .getElementById("series-progress-btn")
     .addEventListener("click", (event) => {
       const stationsHtml = `
         <div>Total Series: ${spa.numberOfSeries}</div>
