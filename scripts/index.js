@@ -2,8 +2,13 @@ import Spartacus from "./Spartacus.js";
 import { defaultParams } from "./config.js";
 import { setHtml } from "./helpers.js";
 
-setHtml(".station-name", defaultParams.name);
 let spa = new Spartacus(defaultParams);
+
+setHtml(".station-name", defaultParams.name);
+setHtml(".total-series", spa.numberOfSeries);
+setHtml(".total-stations", spa.stations.length);
+setHtml(".current-series", 0);
+setHtml(".current-station", 0);
 
 document.getElementById("start-workout").addEventListener("click", (event) => {
   if (!spa.isWorkoutStarted) {
