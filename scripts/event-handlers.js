@@ -33,18 +33,12 @@ const registerPubSubEvents = () => {
 
   pubsub.subscribe(EVENTS.STATION_START, (obj) => {
     console.log(obj);
-    const {
-      currentStationName,
-      totalStations,
-      currentStation,
-      nextStationName,
-    } = obj;
+    const { currentStationName, totalStations, currentStation } = obj;
 
     countdownInstance = playSound("start");
     setHtml(".station-name", `Station: \n${currentStationName}`);
     setHtml(".total-stations", totalStations);
     setHtml(".current-station", currentStation);
-    setHtml(".next-station-name", nextStationName);
   });
 
   pubsub.subscribe(EVENTS.WORKOUT_PAUSE, () => {
@@ -64,6 +58,22 @@ const registerPubSubEvents = () => {
   pubsub.subscribe(EVENTS.PAUSE_START, (obj) => {
     setHtml(".station-name", "Short Break!");
   });
+
+  pubsub.subscribe(EVENTS.WORKOUT_START, (items) => {
+    setHtml(".remaining-stations", mapRemainingItems(items));
+  });
+
+  pubsub.subscribe(EVENTS.STATION_END, (items) => {
+    setHtml(".remaining-stations", mapRemainingItems(items));
+  });
+
+  const mapRemainingItems = (items) =>
+    items
+      .map(
+        (o) =>
+          `<div class="col-sm-12 next-station-item text-center">${o.name} - ${o.duration} s</div>`
+      )
+      .join("");
 };
 
 export { registerPubSubEvents };

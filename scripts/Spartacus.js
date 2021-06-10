@@ -48,8 +48,8 @@ function Spartacus({
     const stationWithPause = () => doStationWithPause(this.nextStation);
     const stationWithoutPause = () => this.nextStation();
     const onDone = isLastStation(i) ? stationWithoutPause : stationWithPause;
-    return new Countdown(name, stationDuration, () => {
-      pubsub.publish(EVENTS.STATION_END);
+    return new Countdown(name, this.stationDuration, () => {
+      pubsub.publish(EVENTS.STATION_END, this.getRemaining());
       onDone();
     });
   });
@@ -57,7 +57,7 @@ function Spartacus({
   const doStationWithPause = (afterPause = () => {}) => {
     this.isPauseInProgress = true;
     pubsub.publish(EVENTS.PAUSE_START);
-    this.pauseCountdown = new Countdown("Pause", pauseDuration, () => {
+    this.pauseCountdown = new Countdown("Pause", this.pauseDuration, () => {
       this.isPauseInProgress = false;
       afterPause();
       pubsub.publish(EVENTS.PAUSE_END);
@@ -68,7 +68,7 @@ function Spartacus({
   this.startRestBetweenSeries = () => {
     this.isRestInProgress = true;
     pubsub.publish(EVENTS.REST_START);
-    this.restCountdown = new Countdown("Rest", restDuration, () => {
+    this.restCountdown = new Countdown("Rest", this.restDuration, () => {
       this.isRestInProgress = false;
       this.startNextSeries();
       pubsub.publish(EVENTS.REST_END);
@@ -108,7 +108,7 @@ function Spartacus({
     registerPubSubEvents();
     this.isWorkoutStarted = true;
     this.startNextSeries();
-    pubsub.publish(EVENTS.WORKOUT_START);
+    pubsub.publish(EVENTS.WORKOUT_START, this.getRemaining());
   };
 
   this.pauseWorkout = () => {
@@ -125,6 +125,38 @@ function Spartacus({
     else this.currentStation.resume();
     this.isWorkoutPaused = false;
     pubsub.publish(EVENTS.WORKOUT_RESUME);
+  };
+
+  this.getRemaining = () => {
+    const remaining = [];
+
+    for (let a = this.currentSeries; a < this.numberOfSeries; a++) {
+      for (
+        let b = this.currentStationIndex + 1;
+        b < this.stations.length;
+        b++
+      ) {
+        const s = this.stations[b];
+        remaining.push({
+          name: s.name,
+          duration: this.stationDuration / 1000,
+        });
+        if (b < this.stations.length - 1) {
+          remaining.push({
+            name: "Pause",
+            duration: this.pauseDuration / 1000,
+          });
+        }
+      }
+      if (a < this.numberOfSeries - 1) {
+        remaining.push({
+          name: "Rest",
+          duration: this.restDuration / 1000,
+        });
+      }
+    }
+
+    return remaining;
   };
 }
 
